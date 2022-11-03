@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+        "module": "es6",
+        "target": "es2015",
+        "declaration": true,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outDir": "./dist",
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "noImplicitReturns": true,
+        "skipLibCheck": true,
+        "moduleResolution":"node",
+        "allowSyntheticDefaultImports" : true,
+        "strictNullChecks": true
+    },
+    "include": [
+        "src/**/*" 
+    ],
+    "exclude": [
+        "**/*.spec.ts",
+        "node_modules",
+        "sockjs-client/*",
+        "src/modules/matrix/lib/*"
+    ]
+}
