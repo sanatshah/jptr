@@ -1,3 +1,6 @@
 
 node_modules/
+electron/node_modules
+jscore/node_modules
+native/node_modules
 dist/
