@@ -12,14 +12,13 @@ const bootup = new Howl({
 
 export function Loading() {
 
-  /*
   useEffect(() => {
     bootup.play()
     bootup.loop()
     return () => {
       bootup.stop()
     }
-  })*/
+  })
 
   return (
     <Container>
@@ -27,7 +26,7 @@ export function Loading() {
         src={logo}
         alt="ReactJS logo"
       />
-      <Text>Booting up...</Text>
+      <Text>Syncing...</Text>
     </Container>
   )
 }

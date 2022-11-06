@@ -9,7 +9,9 @@ import add from './addicon.png'
 import selectionChange from "./selectionChange2.wav"
 import openSound from "./openandclose.wav"
 import closeSound from "./close.wav"
+import hit from "./hit.wav"
 import { Howl } from 'howler'
+import { Setup } from '../../views/Setup'
 
 interface ToolbarItem {
   src?: string,
@@ -21,11 +23,11 @@ const hoverSound = new Howl({
 })
 
 const open = new Howl({
-  src: [ openSound ]
+  src: [ hit ]
 })
 
 const close = new Howl({
-  src: [ closeSound ]
+  src: [ hit ]
 })
 
 export const PlaceWrapper = ({
@@ -51,13 +53,15 @@ export const Toolbar = () => {
   const items: ToolbarItem[] = [{ src: g }, {src: sunny}, { Component: <EndTag>Open</EndTag>}]
   const [ currentSelectedItem, setCurrentSelectedItem ] = useState(0)
   const [ currentMenuSelectedItem, setCurrentMenuSelectedItem ] = useState(0)
+  const [ showSetup, setShowSetup ] = useState(false)
 
-  const [ expandedToolbar, setExpandedToolbar ] = useState(true)
-  const [ showToolbarContent, setShowToolbarContent ] = useState(false)
+  const [ expandedToolbar, setExpandedToolbar ] = useState(false)
+  const [ showToolbarContent, setShowToolbarContent ] = useState(true)
 
 
   useEffect(() => {
 
+    let setup = false
     window.Main.on('message', (data: any) => {
       switch(data) {
         case 'LEFT':
@@ -77,6 +81,10 @@ export const Toolbar = () => {
           hoverSound.play()
           break;
         case 'ENTER':
+          if (setup) {
+            setup = false
+            setShowSetup(false)
+          }
           console.log("got enter: ")
           setExpandedToolbar(expanded => {
             const newValue = !expanded
@@ -86,7 +94,7 @@ export const Toolbar = () => {
               setShowToolbarContent(false)
             } else {
               close.play()
-              setTimeout(() => setShowToolbarContent(true), 915)
+              setTimeout(() => setShowToolbarContent(true), 115)
             }
 
 
@@ -99,8 +107,12 @@ export const Toolbar = () => {
 
   }, [])
 
+  if (showSetup) {
+    return <Setup />
+  }
+
   return (
-    <Container style={ expandedToolbar ? { height: 'calc(100vh - 60px)', width: 'calc(100vw - 60px)', padding: '3vw'}: {}}>
+    <Container style={ expandedToolbar ? { height: 'calc(100vh - 60px)', width: 'calc(100vw - 60px)', padding: '3vw', transform: 'height 0.9s'}: { transition: 'height 0s'}}>
       {!expandedToolbar && showToolbarContent && items.map((item: ToolbarItem, idx) => {
           if (currentSelectedItem === idx) {
             if (item.src) {
@@ -127,17 +139,16 @@ export const Toolbar = () => {
           <div>
             <h1 style={{ color : "white", fontSize: "5vh"}}>Members</h1>
             <div style={{height: '3vh'}} />
-            {[g, sunny, add].map((pic, idx) => <ImgButton key={idx} src={pic} style={{width: '5vw', margin: '1vw'}} />)}
+            {[add, g, sunny ].map((pic, idx) => <ImgButton key={idx} src={pic} style={{width: '5vw', margin: '1vw'}} />)}
           </div>
           <div style={{height: '8vw'}}></div>
           <div>
             <h1 style={{ color : "white",fontSize: "5vh"}}>Guests</h1>
             <ol style={{marginLeft: '2vw'}}>
-            Note:
-              <li>
+              <li style={{ fontSize: '1vw'}}>
                 Guests will be automatically picked up if they have a jupiter browser on their phone
               </li>
-              <li>
+              <li style={{ fontSize: '1vw'}}>
                 Once a guest is out of the bluetooth range of this homenode, they will removed as a guest 
               </li>
             </ol>

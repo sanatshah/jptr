@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  width: 600px;
-  height: 100px;
+  width: 40vw;
+  height: 10vh;
   transition: height 0.9s;
 
   
@@ -24,8 +24,8 @@ export const Container = styled.div`
 `
 
 export const ImgButton = styled.img`
-  width: 3.5rem;
-  margin-right: 16px;
+  width: 4vw; 
+  margin-right: 1vw;
   &:hover {
     filter: brightness(0.9);
   }
@@ -39,6 +39,7 @@ export const ImgButton = styled.img`
 export const EndTag = styled.p`
   position: absolute;
   right: 5%;
-  top: 42%;
+  top: 35%;
   color: white;
+  font-size: 1.5vw;
 `

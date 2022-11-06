@@ -8,7 +8,7 @@ import { Shared } from './views/Shared'
 export function App() {
 
   const [ isBooted, setIsBooted ] = useState(false)
-  const [ isSetup, setIsSetup ] = useState(false)
+  const [ isSetup, setIsSetup ] = useState(true)
 
   useEffect(() => {
     setTimeout(() => setIsBooted(true), 2000)
