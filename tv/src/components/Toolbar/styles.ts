@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  height: 10%;
-  min-width: 700px;
-  max-width: 90%;
-  margin: 24px;
+  width: 600px;
+  height: 100px;
+  transition: height 0.9s;
+
   
   display: flex;
   align-items: center;
@@ -16,7 +16,11 @@ export const Container = styled.div`
 
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   
-  position: relative
+  position: absolute;
+  left: 0;
+  bottom: 30px;
+  margin: auto;
+  right: 0;
 `
 
 export const ImgButton = styled.img`

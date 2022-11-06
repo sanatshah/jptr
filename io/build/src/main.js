@@ -6,6 +6,7 @@ var Remote;
 (function (Remote) {
     Remote["LEFT"] = "LEFT";
     Remote["RIGHT"] = "RIGHT";
+    Remote["ENTER"] = "ENTER";
 })(Remote || (Remote = {}));
 const stdin = process.stdin;
 stdin.on('data', data => {
@@ -16,7 +17,13 @@ stdin.on('data', data => {
         case 'd':
             socket.write(Remote.RIGHT);
             break;
+        default:
+            socket.write(Remote.ENTER);
+            break;
     }
+    console.log("data: ", data.toString());
+    console.log("data: ", data.toString() === "\\n");
+    console.log("data: ", typeof (data.toString()));
 });
 stdin.setRawMode(true);
 /*

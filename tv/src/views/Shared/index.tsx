@@ -6,10 +6,10 @@ import { PortalSpace } from '../../components/PortalSpace'
 
 export const Shared = () => {
   return (
-    <Container>
+    <>
       <PortalSpace />
       <Toolbar />
-    </Container>
+    </>
   )
 }
  

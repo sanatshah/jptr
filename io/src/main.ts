@@ -7,7 +7,8 @@ const socket = net.connect('7771', () => {
 
 enum Remote {
   LEFT = "LEFT", 
-  RIGHT = "RIGHT"
+  RIGHT = "RIGHT",
+  ENTER = "ENTER"
 }
 
 const stdin = process.stdin
@@ -24,7 +25,14 @@ stdin.on('data', data => {
       socket.write(Remote.RIGHT)
       break;
 
+    default:
+      socket.write(Remote.ENTER)
+      break;
   }
+
+  console.log("data: ", data.toString())
+  console.log("data: ", data.toString() === "\\n")
+  console.log("data: ", typeof(data.toString()))
 })
 
 stdin.setRawMode(true)
