@@ -36,6 +36,8 @@ function createWindow () {
     autoHideMenuBar: true,
   })
 
+  mainWindow.setAutoHideCursor(true)
+
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 
   mainWindow.on('closed', () => {

@@ -50,13 +50,14 @@ export const PlaceWrapper = ({
 
 export const Toolbar = () => {
 
-  const items: ToolbarItem[] = [{ src: g }, {src: sunny}, { Component: <EndTag>Open</EndTag>}]
+  const items: ToolbarItem[] = [{ src: g }, {src: sunny}, { Component: <EndTag>Edit</EndTag>}]
   const [ currentSelectedItem, setCurrentSelectedItem ] = useState(0)
   const [ currentMenuSelectedItem, setCurrentMenuSelectedItem ] = useState(0)
   const [ showSetup, setShowSetup ] = useState(false)
 
   const [ expandedToolbar, setExpandedToolbar ] = useState(false)
   const [ showToolbarContent, setShowToolbarContent ] = useState(true)
+  const [ showExpandedToolbarContent, setShowExpandedToolbarContent ] = useState(false)
 
 
   useEffect(() => {
@@ -85,16 +86,19 @@ export const Toolbar = () => {
             setup = false
             setShowSetup(false)
           }
+          
           console.log("got enter: ")
           setExpandedToolbar(expanded => {
             const newValue = !expanded
 
             if (newValue) {
               open.play()
+              setTimeout(() => setShowExpandedToolbarContent(true), 1210)
               setShowToolbarContent(false)
             } else {
               close.play()
               setTimeout(() => setShowToolbarContent(true), 115)
+              setShowExpandedToolbarContent(false)
             }
 
 
@@ -112,21 +116,21 @@ export const Toolbar = () => {
   }
 
   return (
-    <Container style={ expandedToolbar ? { height: 'calc(100vh - 60px)', width: 'calc(100vw - 60px)', padding: '3vw', transform: 'height 0.9s'}: { transition: 'height 0s'}}>
+    <Container style={ expandedToolbar ? { height: 'calc(100vh - 60px)', width: 'calc(100vw - 60px)', padding: '3vw', transform: 'height 2.2s'}: { transition: 'height 0s'}}>
       {!expandedToolbar && showToolbarContent && items.map((item: ToolbarItem, idx) => {
           if (currentSelectedItem === idx) {
             if (item.src) {
             return (
               <div style={{position: 'relative'}}>
                 <ImgButton key={idx} src={item.src}/>
-                <div style={{ position: 'absolute', right: '40px', height: '10px', width: '10px',  borderRadius: 100, backgroundColor: 'white'}}/>
+                <div style={{ position: 'absolute', right: '3vw', height: '10px', width: '10px',  borderRadius: 100, backgroundColor: 'white'}}/>
               </div>
             )
             } else {
             return (
               <>
                 {item.Component}
-                <div style={{ position: 'absolute', height: '10px', width: '10px', right: '43px', top: '67px', borderRadius: 100, backgroundColor: 'white'}}/>
+                <div style={{ position: 'absolute', height: '10px', width: '10px', right: '3vw', top: '7vh', borderRadius: 100, backgroundColor: 'white'}}/>
               </>
             )
             }
@@ -134,26 +138,34 @@ export const Toolbar = () => {
             return item.src ? <ImgButton key={idx} src={item.src}/>: item.Component
           }
       })}
-      {expandedToolbar && (
-        <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
-          <div>
-            <h1 style={{ color : "white", fontSize: "5vh"}}>Members</h1>
-            <div style={{height: '3vh'}} />
-            {[add, g, sunny ].map((pic, idx) => <ImgButton key={idx} src={pic} style={{width: '5vw', margin: '1vw'}} />)}
+      {expandedToolbar && showExpandedToolbarContent && (
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+          <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+            <div>
+              <h1 style={{ color : "white", fontSize: "5vh"}}>Members</h1>
+              <div style={{height: '3vh'}} />
+              {[add, g, sunny ].map((pic, idx) => <ImgButton key={idx} src={pic} style={{width: '5vw', margin: '1vw'}} />)}
+            </div>
+            <div style={{height: '8vw'}}></div>
+            <div>
+              <h1 style={{ color : "white",fontSize: "5vh"}}>Guests</h1>
+              <ol style={{marginLeft: '2vw'}}>
+                <li style={{ fontSize: '1vw'}}>
+                  Guests will be automatically picked up if they have a jupiter browser on their phone
+                </li>
+                <li style={{ fontSize: '1vw'}}>
+                  Once a guest is out of the bluetooth range of this homenode, they will removed as a guest 
+                </li>
+              </ol>
+              <div style={{height: '3vh'}} />
+              {[add].map((pic, idx) => <ImgButton key={idx} src={pic} style={{width: '5vw', margin: '1vw'}} />)}
+            </div>
           </div>
-          <div style={{height: '8vw'}}></div>
-          <div>
-            <h1 style={{ color : "white",fontSize: "5vh"}}>Guests</h1>
-            <ol style={{marginLeft: '2vw'}}>
-              <li style={{ fontSize: '1vw'}}>
-                Guests will be automatically picked up if they have a jupiter browser on their phone
-              </li>
-              <li style={{ fontSize: '1vw'}}>
-                Once a guest is out of the bluetooth range of this homenode, they will removed as a guest 
-              </li>
-            </ol>
-            <div style={{height: '3vh'}} />
-            {[add].map((pic, idx) => <ImgButton key={idx} src={pic} style={{width: '5vw', margin: '1vw'}} />)}
+          <div style={{marginLeft: '1vw'}}>
+            <h1 style={{ color : "white", fontSize: "5vh"}}>Homenode Info</h1>
+            <p>ENS Address: [some ens name]</p>
+            <p>Node registered on: [some ens name]</p>
+            <p>Owner Public Address: [some ens name]</p>
           </div>
         </div>
       )}

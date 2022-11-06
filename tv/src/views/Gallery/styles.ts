@@ -8,19 +8,25 @@ const ellipsis = keyframes`
 
 export const Container = styled.div`
   height: 100vh;
-  padding: 25px;
+  width: 100v2;
+  padding: 20;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #e2e2e2;
+`
 
-  button {
-    margin-top: 24px;
-  }
+export const ImageContainer = styled.div`
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  width: 90vw;
+  height: 90vh;
 `
 
 export const Image = styled.img`
-  width: 10vw;
+  width: 90vw;
+  height: 90vh;
+  border-radius: 11px;
 `
 
 export const Text = styled.p`

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.div`
   width: 40vw;
   height: 10vh;
-  transition: height 0.9s;
+  transition: height 1.2s;
 
   
   display: flex;
@@ -41,5 +41,5 @@ export const EndTag = styled.p`
   right: 5%;
   top: 35%;
   color: white;
-  font-size: 1.5vw;
+  font-size: 1vw;
 `

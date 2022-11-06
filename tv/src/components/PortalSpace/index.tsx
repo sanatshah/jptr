@@ -74,7 +74,7 @@ export const PortalSpace = () => {
         {[50, 30, 10, 20, 60, 10, 45, 10,20,40,30].map((value, indx) => {
           return (
             <div key={indx} style={{ paddingRight: '2vw', backgroundColor: "#FFF2F2", width: '48vw', height: `${value}vh`, marginBottom: '4vh', borderRadius: 20, padding: '1vw'}}>
-              <h1 style={{fontSize: '2vw', marginBottom: '1vh'}}>stream activity {indx}</h1>
+              <h1 style={{fontSize: '2vw', marginBottom: '1vh'}}></h1>
             </div>
           )
         })}

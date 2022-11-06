@@ -12,13 +12,14 @@ const bootup = new Howl({
 
 export function Loading() {
 
+  /*
   useEffect(() => {
     bootup.play()
     bootup.loop()
     return () => {
       bootup.stop()
     }
-  })
+  })*/
 
   return (
     <Container>
