@@ -1,5 +1,5 @@
 {
-  "name": "@jptr/tv",
+  "name": "@homenode/tv",
   "version": "1.0.0",
   "private": true,
   "main": "./.webpack/main/index.js",

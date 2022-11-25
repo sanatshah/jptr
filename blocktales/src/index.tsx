@@ -10,7 +10,7 @@ import {
 import { extendTheme, ChakraProvider } from '@chakra-ui/react'
 import Article from './Article';
 
-import Core, { _ } from "@homenode/jscore"
+import Core, { _ } from "@homenode/jscore/dist/Core"
 import { config } from "./config/App.config"
 
 new Core(config)
