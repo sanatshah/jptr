@@ -1,18 +1,9 @@
 import React from 'react';
-import { Web3Modal } from '@web3modal/react'
-import { Toolbar } from './views/Toolbar';
-import { Homepage } from './views/Homepage';
+//import { Web3Modal } from '@web3modal/react'
+import { Toolbar } from '../../components/Toolbar';
+import { Homepage } from '../home/Homepage';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
-import { Card } from './components/Card';
-
-const config = {
-  projectId: '53f57bac7dd366a79f4083f23b2b773b',
-  theme: "dark",
-  accentColor: 'default',
-  ethereum: {
-    appName: 'jupiter'
-  }
-}
+import { Card } from '../../components/Card';
 
 // #5e1a91
 
@@ -48,7 +39,6 @@ export const Article = () => {
           </div>
 
         </div>
-        <Web3Modal config={config as any} />
       </div>
   );
 }

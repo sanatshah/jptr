@@ -4,9 +4,6 @@ import Core from "../../Core";
 
 /**
  *
- * Abstraction of wallet management 
- * 
- * 
  */
 
 enum Environments {
@@ -15,7 +12,6 @@ enum Environments {
 }
 
 interface Config {
-    env: Environments
 }
 
 interface DependencyInjection {

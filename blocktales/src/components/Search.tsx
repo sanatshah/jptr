@@ -1,6 +1,5 @@
 
 import { Input } from '@chakra-ui/react';
-import { Web3Button, useConnectModal } from '@web3modal/react'
 import React from 'react';
 
 export const Search = () => {

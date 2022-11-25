@@ -4,6 +4,7 @@ import Notification from "./notification/Notification";
 import Log from "./log/Log";
 import Comm from "./comm/Comm";
 import Matrix from "./matrix/Matrix";
+import Web3 from "./web3/Web3";
 
 export default { 
   appManager : AppManager,
@@ -11,5 +12,6 @@ export default {
   notification : Notification,
   log: Log,
   comm: Comm,
-  matrix: Matrix
+  matrix: Matrix,
+  web3: Web3
 }
