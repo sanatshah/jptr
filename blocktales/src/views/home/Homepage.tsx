@@ -46,28 +46,17 @@ export const Homepage = () => {
       width: "100%",
       justifyContent: 'center',
       alignContent: 'flex-start',
+      marginTop: "40px"
     }}>
       <Search />
-              <Breadcrumb>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href='/'>News</BreadcrumbLink>
-                </BreadcrumbItem>
-
-                <BreadcrumbItem>
-                  <BreadcrumbLink href='#'>[Article Name Here]</BreadcrumbLink>
-                </BreadcrumbItem>
-              </Breadcrumb>
-      <div style={{ border: '1px dotted #5e1a91', width: "1000px", height: "80vh", padding: '20px', overflowY: 'auto'}} >
+      <div style={{ width: "1000px", height: "80vh", backgroundColor: '#b6b6b6'}} >
           <Tabs css={{ width: "100%", }}variant='soft-rounded' >
-            <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', position: "sticky", top: "-21px", backgroundColor: "#e9e9e9", padding: "20px"}}>
+            <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', position: "sticky", top: "-21px", backgroundColor: "rgb(0 0 0 / 65%)", padding: "20px"}}>
             <TabList>
-                <Tab>Trending</Tab>
-                <Tab>News</Tab>
-                <Tab>Hacks</Tab>
-                <Tab>Whales</Tab>
-
+                <Tab>New</Tab>
+                <Tab>Top</Tab>
             </TabList>
-                <Menu>
+                {/*<Menu>
                   <MenuButton as={Button}>
                     Sort 
                   </MenuButton>
@@ -76,16 +65,14 @@ export const Homepage = () => {
                     <MenuItem>Controversial</MenuItem>
                     <MenuItem>Top</MenuItem>
                   </MenuList>
-                </Menu>
+                </Menu>*/}
               </div>
-            <TabPanels>
+            <TabPanels style={{backgroundColor: '#b6b6b6'}}>
               <TabPanel>
-                <ArticleList />
+                <Chrono items={items as any} />
               </TabPanel>
               <TabPanel>
-        <div style={{ width: "800px"}}>
-          <Chrono items={items as any} />
-        </div>
+                <ArticleList />
               </TabPanel>
             </TabPanels>
           </Tabs>

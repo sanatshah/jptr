@@ -10,7 +10,6 @@ import { Card } from '../../components/Card';
 export const Article = () => {
   return (
       <div style={{width: '100vw', height: '100vh', backgroundColor: '#e9e9e9'}}>
-        <Toolbar />
         <div style={{ display: 'flex', flexDirection: "row"}}>
           <div style={{ display: 'flex', justifyContent: 'center', alignContent: "center", flexDirection: 'column', paddingLeft: "10vw"}}>
             <div style={{ width: "60vw", marginBottom: "20px"}}>

@@ -6,7 +6,7 @@ export const Search = () => {
 
   return (
     <div >
-        <Input css={{width: '800px', marginBottom: "20px"}} variant="outline" placeholder='Search by Address or ENS' />
+        <Input css={{width: '800px', marginBottom: "20px"}} variant="outline" placeholder='Lookup address(es)' />
     </div>
 
   )

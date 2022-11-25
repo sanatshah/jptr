@@ -102,14 +102,14 @@ export const Account = () => {
     const { signMessage} = useSignMessage({ message : "Happy Thanksgiving!"})
     const provider = useProvider()
 
+  const [ userProfile, setUserProfile ] = React.useState("")
+
   const [isSent, setIsSent ] = React.useState(false)
 
   React.useEffect(() => {
 
       if (address && provider && signer) {
         const farcasterTest = async () => {
-          console.log("address: ", address)
-          console.log("signer: ")
           if (!isSent && signer) {
             //await publishCast(signer as any, provider, "Hello, from Blocktales!");
           
@@ -120,14 +120,16 @@ export const Account = () => {
               throw new Error(`no username registered for address ${address}`);
               }
 
+              setUserProfile(user.avatar.url)
+
               const unsignedCast = await farcaster.prepareCast({
                 fromUsername: user.username,
                 text: 'Hello from Blocktales',
               });
 
-            const signedCast = signCast(unsignedCast, signer)
+            //const signedCast = signCast(unsignedCast, signer)
 
-            console.log("signedCast: ", signedCast)
+            //console.log("signedCast: ", signedCast)
 
             //const auth = await authHeader(address, signMessage)
 
@@ -155,14 +157,31 @@ export const Account = () => {
     return null
   }
 
-  console.log("ethers signer: ", signer)
-  console.log("ethers provider: ", provider)
+  console.log("ethers provider: ", userProfile)
+
+  if (userProfile) {
+    return <div style={{
+      position: 'absolute',
+      top: "30px",
+      right: "250px",
+      width: "40px",
+      height: "40px",
+      borderRadius: "10px",
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      textAlign: 'center'
+    }}>
+      <img src={userProfile} width="40px" height="40px" style={{borderRadius: '10px'}} />
+    </div>
+
+  }
 
   return (
     <div style={{
       position: 'absolute',
-      top: "16px",
-      right: "80px",
+      top: "30px",
+      right: "250px",
       width: "40px",
       height: "40px",
       backgroundColor: "#cb5b4f",
@@ -182,19 +201,20 @@ export const WalletConnect = ({ children }: WalletConnectProps) => {
   return (
     <>
       <WagmiConfig client={wagmiClient}>
-        <Account />
         {children}
+        <Account />
       </WagmiConfig>
       <div style={{
         position: 'absolute',
-        top: "16px",
-        right: "40px"
+        top: "30px",
+        right: "100px"
       }}>
         <Web3Button />
       </div>
       <Web3Modal
         projectId={projectID}
         ethereumClient={ethereumClient}
+        themeColor={'purple'}
       />
     </>
   )

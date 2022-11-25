@@ -9,12 +9,24 @@ export const Toolbar = () => {
 
   return (
     <div style={{
+      display: "flex",
+      width: "100vw",
+      height: "100px",
+      justifyContent:"center",
+      alignItems:'center'
+    }}>
+    <div style={{
       display: 'flex',
       justifyContent: 'space-between',
-      width: '100%',
-      height: '100px',
-      padding: '20px'
+      width: '90%',
+      height: '70px',
+      padding: '20px',
+      backgroundColor: "white",
+      borderRadius: '50px'
     }}>
+      <h1 style={{fontSize: "30px", fontWeight: '800', marginTop: "-5px", marginLeft: "10px"}}>Blocktales</h1>
+    </div>
+
     </div>
 
   )
