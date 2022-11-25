@@ -12,4 +12,5 @@ export default class ModuleManager {
     public log?: Log;
     public comm?: Comm;
     public matrix?: Matrix;
+    public web3?: Matrix;
 }

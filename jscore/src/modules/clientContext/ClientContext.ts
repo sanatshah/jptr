@@ -67,7 +67,7 @@ export default class ClientContext extends Module {
     if (this.config.auth) {
       const isAuthenticated = this.checkAuth();
 
-      if (isAuthenticated) {
+      if (await isAuthenticated) {
         await this.setupHomeConnection();
       }
     }

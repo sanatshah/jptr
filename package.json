@@ -1,6 +1,6 @@
 {
   "private": true,
-  "workspaces": ["@jptr/electron", "@jptr/jscore", "@jptr/native"],
+  "workspaces": ["./*"],
   "version": "1.0.0",
   "description": "web3 browser",
   "main": "index.js",

@@ -8,8 +8,6 @@ import MapConfig from "./modules/Map.config";
 import Module from "./modules/Module";
 import ModuleManager from "./modules/ModuleManager";
 
-const x = "new";
-
 /**
  * Constants
  */
@@ -29,6 +27,7 @@ let _ = {
         return mainCore
     }
 };
+
 
 export { _ };
 
