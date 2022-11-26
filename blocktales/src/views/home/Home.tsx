@@ -3,10 +3,7 @@ import { Toolbar } from '../../components/Toolbar';
 import { Homepage } from './Homepage';
 
 export const GradientBackground = () => {
-
-
   return (
-
     <div style={{
         position: "absolute",
         top: "0%",

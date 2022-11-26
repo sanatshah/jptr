@@ -5,6 +5,7 @@ import Log from "./log/Log";
 import Comm from "./comm/Comm";
 import Matrix from "./matrix/Matrix";
 import Web3 from "./web3/Web3";
+import Social from "./social/Social";
 
 export default { 
   appManager : AppManager,
@@ -13,5 +14,6 @@ export default {
   log: Log,
   comm: Comm,
   matrix: Matrix,
-  web3: Web3
+  web3: Web3,
+  social: Social
 }

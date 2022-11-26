@@ -10,5 +10,6 @@ export const config = {
       platforms: PlatformState.Web
     },
     web3: {},
+    social: {}
   }
 }

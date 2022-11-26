@@ -1,7 +1,4 @@
 import React from 'react';
-import { Button } from '@chakra-ui/react';
-
-import { _ } from "@homenode/jscore/dist/Core"
 
 import {
   EthereumClient,
@@ -10,71 +7,11 @@ import {
 } from "@web3modal/ethereum";
 import { Web3Button, Web3Modal } from "@web3modal/react";
 import { chain, configureChains, createClient, WagmiConfig, useProvider, useAccount, useConnect, useClient, useSigner, useSignMessage } from "wagmi";
-import { Signer, Wallet } from 'ethers';
 
-import { fetchEnsName } from "@wagmi/core"
-
-import { Farcaster, MessageBody, MessageBodyType, serializeMessageBody, SignedCast } from "@standard-crypto/farcaster-js";
-
-import { createJWT, ES256KSigner, Signer as JWTSigner } from "did-jwt";
-import { keccak256, toUtf8Bytes } from 'ethers/lib/utils.js';
-
-
-
+import { NetworkTypes } from '@homenode/jscore/src/modules/social/Social';
+import { _ } from "@homenode/jscore/dist/Core"
 
 const projectID = '53f57bac7dd366a79f4083f23b2b773b' 
-
-  /** Signs a cast. @see {@link FarcasterContentHost.publishCast} for publishing signed casts */
-  const signCast = async (
-    cast: MessageBody,
-    signer: Signer
-  ): Promise<SignedCast> => {
-    if (cast.address !== (await signer.getAddress())) {
-      throw new Error(
-        `The address ${cast.address} for user ${
-          cast.username
-        } does not match the address of the provided signer: ${await signer.getAddress()}`
-      );
-    }
-    const serializedCast = serializeMessageBody(cast);
-    const merkleRoot = keccak256(toUtf8Bytes(serializedCast));
-    const signature = await signer.signMessage(merkleRoot);
-    return {
-      body: cast,
-      merkleRoot,
-      signature,
-    };
-  }
-
-/**
-   * @param cast A signed cast. @see {@link Farcaster.signCast} for building this parameter
-   * @param wallet The same wallet used to sign the cast
-   */
-
-const authHeader = async (address, jwtSigner): Promise<string> => {
-  const timeInEpochSeconds = Math.floor(Date.now() / 1000);
-  const expiry = timeInEpochSeconds + 60;
-  const jwt = await createJWT(
-    { exp: expiry },
-    {
-      // cspell:disable-next-line
-      issuer: `did:ethr:rinkeby:${address}`, // still 'rinkeby' not 'goerli,' despite the migration
-      signer: jwtSigner,
-    },
-    { alg: "ES256K" }
-  );
-  return `Bearer ${jwt}`;
-}
-
-/*
-const publishCast =  async (cast: SignedCast, wallet: Wallet): Promise<void> => {
-  const authHeader = await authHeader(wallet);
-  return await this.axiosInstance.post("/indexer/activity", cast, {
-    headers: { authorization: authHeader },
-    validateStatus: (status: number) => true,
-  });
-}(*/
-
 
 // Wagmi client
 const chains = [chain.goerli];
@@ -95,71 +32,24 @@ interface WalletConnectProps {
 }
 
 export const Account = () => {
-  const { address  } = useAccount()
-  const client = useClient()
-  const { connect, connectors } = useConnect()
-    const { data: signer, isError, isLoading } = useSigner()
-    const { signMessage} = useSignMessage({ message : "Happy Thanksgiving!"})
-    const provider = useProvider()
-
-  const [ userProfile, setUserProfile ] = React.useState("")
-
-  const [isSent, setIsSent ] = React.useState(false)
+  const { address, isConnected } = useAccount()
+  const { data: signer, isSuccess } = useSigner()
+  const provider = useProvider()
 
   React.useEffect(() => {
-
-      if (address && provider && signer) {
-        const farcasterTest = async () => {
-          if (!isSent && signer) {
-            //await publishCast(signer as any, provider, "Hello, from Blocktales!");
-          
-            const farcaster = new Farcaster(provider);
-            const user = await farcaster.userRegistry.lookupByUsername('llhungrub');
-            console.log("user: ", user)
-              if (user == null) {
-              throw new Error(`no username registered for address ${address}`);
-              }
-
-              setUserProfile(user.avatar.url)
-
-              const unsignedCast = await farcaster.prepareCast({
-                fromUsername: user.username,
-                text: 'Hello from Blocktales',
-              });
-
-            //const signedCast = signCast(unsignedCast, signer)
-
-            //console.log("signedCast: ", signedCast)
-
-            //const auth = await authHeader(address, signMessage)
-
-            //console.log("auth: ", auth)
-
-            setIsSent(true)
-          for await (const activity of farcaster.getAllActivityForUser("llhungrub", {
-            includeRecasts: false,
-          })) {
-            console.log(activity.body.data.text);
-          }
-
-        }
-        }
-
-
-
-      farcasterTest()
+      if ( isConnected && isSuccess && address && provider && signer) {
+        _.m().modules.web3?.setUser(address, signer, provider)
+        _.m().modules.social?.setup(NetworkTypes.FARCASTER)
     }
+  }, [ address, signer, provider, isConnected, isSuccess ])
 
-
-  }, [ address, signer ])
-
-  if (!address) {
+  if (!address || !_.m().modules.web3?.user) {
     return null
   }
 
-  console.log("ethers provider: ", userProfile)
+  const web3 = _.m().modules.web3
 
-  if (userProfile) {
+  if (web3?.user.profileURL) {
     return <div style={{
       position: 'absolute',
       top: "30px",
@@ -172,9 +62,8 @@ export const Account = () => {
       alignItems: 'center',
       textAlign: 'center'
     }}>
-      <img src={userProfile} width="40px" height="40px" style={{borderRadius: '10px'}} />
+      <img src={web3?.user.profileURL} width="40px" height="40px" style={{borderRadius: '10px'}} />
     </div>
-
   }
 
   return (
