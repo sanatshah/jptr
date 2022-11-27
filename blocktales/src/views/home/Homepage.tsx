@@ -83,7 +83,7 @@ export const Homepage = observer(() => {
                       }
                       
                       return (
-                        <BlockEvent key={i} date={formatDistance(subDays(new Date(), i), new Date())} text={JSON.stringify(page.text)} />
+                        <BlockEvent key={i} date={formatDistance(subDays(new Date(), i), new Date())} text={"hi"} />
                       )
                     })}
                   </Events>

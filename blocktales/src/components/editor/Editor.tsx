@@ -1,16 +1,16 @@
 import React, { useCallback, useRef } from 'react';
-import EditorJS from '@editorjs/editorjs';
+import EditorJS, { OutputData } from '@editorjs/editorjs';
 import { Txn } from './plugins/Txn';
 import { Address } from './plugins/Address';
 import { Gif } from './plugins/Gif';
 import { Commentary } from './plugins/Commentary';
 
+interface EditorProps {
+  onNewEditorData: (data: OutputData) => void
+}
 
-export const Editor = () => {
-  const editorRef = useRef(null)
-
+export const Editor = ({ onNewEditorData }: EditorProps) => {
    const elemRef = useCallback((node) => {
-    console.log("got node!:")
     if (node !== null) {
       new EditorJS({
         autofocus: false,
@@ -22,10 +22,13 @@ export const Editor = () => {
           Address: Address,
           Gif: Gif,
         },
+        onChange: async (api) => {
+          const savedData = await api.saver.save() 
+          onNewEditorData(savedData)
+        }
       });
     }
   }, [])
-
 
   return (
     <div id="editor" ref={elemRef} />

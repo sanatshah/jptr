@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { DelayRender } from '../../components/DelayRender';
 import { HomeContainer } from '../../components/HomeContainer';
@@ -7,10 +7,80 @@ import { Toolbar } from '../../components/Toolbar';
 import { GradientBackground } from '../../components/GradientBackground';
 import { Editor } from '../../components/editor/Editor';
 import { _ } from "@homenode/jscore/dist"
+import { Page, Section } from "@homenode/jscore/dist/apps/blockbook/Blockbook"
+import { OutputData } from '@editorjs/editorjs';
+import toast from 'react-hot-toast';
+
+const createPage = (savedData: OutputData): Page => {
+  console.log("savedData: ", savedData)
+  const transactions: string[] = []
+  const addresses: string[] = []
+  const sections: Section[] = []
+
+  savedData.blocks.forEach((block, i) => {
+    switch (block.type) {
+
+      case 'Txn':
+        transactions.push(block.data)
+        sections.push({
+          id: i.toString(),
+          data: {
+            address: block.data
+          } 
+        })
+        break;
+
+      case 'Address':
+        addresses.push(block.data)
+        sections.push({
+          id: i.toString(),
+          data: {
+            address: block.data
+          } 
+        })
+        break;
+
+      case 'Text':
+        sections.push({
+          id: i.toString(),
+          data: {
+            text: block.data
+          } 
+        })
+        break;
+
+      case 'Gif':
+        break;
+
+      default:
+        break;
+    }
+  })
+
+
+  return {
+    transactions,
+    addresses,
+    sections
+  }
+}
 
 export const SubmitPost = () => {
+  const [ saveData, setSaveData ] = useState<OutputData | undefined>()
+  const [ isPublishing, setIsPublishing ] = useState(false)
 
-  const publishPost = () => {
+  const publishPost = async () => {
+    if (!saveData) {
+      return
+    }
+
+    setIsPublishing(true)
+    try {
+      await _.m().apps.blockbook?.publish(createPage(saveData))
+    } catch (e) {
+      toast.error("Publish failed!")
+    }
+    setIsPublishing(false)
   }
 
   return (
@@ -46,7 +116,7 @@ export const SubmitPost = () => {
                 </DelayRender>
               </div>
               <DelayRender>
-              <Button colorScheme={'gray'} variant={'solid'} onClick={publishPost}>Publish</Button>
+              <Button disabled={isPublishing} colorScheme={'gray'} variant={'solid'} onClick={publishPost}>Publish</Button>
                 </DelayRender>
             </div>
           )}
@@ -65,7 +135,7 @@ export const SubmitPost = () => {
               }}
             >
               <DelayRender>
-                <Editor />
+                <Editor onNewEditorData={(saveData) => setSaveData(saveData)}/>
               </DelayRender>
             </div>
           </div>

@@ -14,14 +14,32 @@ interface DependencyInjection {
 
 }
 
-interface Page {
-  id: string,
-  transactions?: string[],
-  addresses?: string[],
-  editorJson?: any,
+type Txn  ={
+  address: string
+}
+
+type Address = {
+  address: string
+}
+type Text = {
   text: string
 }
 
+type Gif  ={
+  url: string
+}
+
+export interface Section {
+  id: string,
+  data: Txn | Address | Text | Gif
+}
+
+export interface Page {
+  id?: string,
+  transactions?: string[],
+  addresses?: string[],
+  sections?: Section[]
+}
 
 export default class BlockBook extends App {
   private web3: Web3 | undefined;
@@ -42,10 +60,6 @@ export default class BlockBook extends App {
     })
   }
 
-  public getPage(id: string){
-    return this.pages[id]
-  }
-
   protected async start(){
     this.social = this.core.modules.social
     this.web3 = this.core.modules.web3
@@ -53,9 +67,16 @@ export default class BlockBook extends App {
     this.search()
   }
 
-  private async publish(editorJson){
-    await this.social?.network?.postMany([])
+  public getPage(id: string){
+    return this.pages[id]
   }
+
+  public async publish(page: Page){
+    console.log("got page: ", page)
+    await this.social?.network?.postMany([])
+    throw new Error("Error")
+  }
+
 
   private async search(){
     const casts = await this.social?.network?.search()
@@ -65,7 +86,7 @@ export default class BlockBook extends App {
     casts?.forEach((cast) => {
       this.pages[cast.merkleRoot] = {
         id: cast.merkleRoot,
-        text: cast.data ? cast.data.text : ''
+        //text: cast.data ? cast.data.text : ''
       }
       _historicalList.push(cast.merkleRoot)
     })

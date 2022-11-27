@@ -45,7 +45,7 @@ export class Address {
 
   save(blockContent){
     return {
-      url: blockContent.value
+      address: (blockContent.childNodes[0] as HTMLInputElement).value
     }
   }
 }

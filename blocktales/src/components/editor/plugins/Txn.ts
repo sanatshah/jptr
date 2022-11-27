@@ -1,10 +1,5 @@
 export class Txn {
 
-  constructor({ data }){
-    console.log("data", data)
-
-  }
-
   static get toolbox() {
     return {
       title: 'Txn',
@@ -47,9 +42,9 @@ export class Txn {
     return wrapper;
   }
 
-  save(blockContent){
+  save(blockContent: HTMLElement){
     return {
-      url: blockContent.value
+      address: (blockContent.childNodes[0] as HTMLInputElement).value
     }
   }
 }
