@@ -14,6 +14,7 @@ export default class Farcaster {
 
   public user;
   public posts: string[] = [] 
+  public casts: string[] = [] 
 
   public isLoading: boolean = false; 
 
@@ -32,7 +33,8 @@ export default class Farcaster {
 
     makeObservable(this, {
       posts: observable,
-      isLoading: observable
+      isLoading: observable,
+      casts: observable,
     })
 
     await this.getUser()
@@ -94,6 +96,14 @@ export default class Farcaster {
     })) {
       this.posts = [ ...this.posts, activity.body.data.text]
     }
+    return []
+  }
+
+  public async search(): Promise<never[]> {
+    const response = await fetch("https://searchcaster.xyz/api/search?text=test") 
+    const data = await response.json()
+    this.casts = data.casts
+
     return []
   }
 

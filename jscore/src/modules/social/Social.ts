@@ -24,7 +24,11 @@ export default class Social extends Module {
   public selectedNetwork: NetworkTypes;
   public network: Farcaster | undefined = undefined;
 
-  constructor(core : Core<{}>, private config : Config, private dependencyInjection: DependencyInjection) {
+  constructor(
+    core : Core<{}>,
+    private config : Config,
+    private dependencyInjection: DependencyInjection
+  ) {
     super(core);
     makeObservable(this, {
       network: observable

@@ -4,7 +4,6 @@ import { BACKGROUND_THEME } from '../config/theme'
 
 export const GradientBackground = () => {
   const [ savedBackgroundTheme] = useLocalStorage("background-theme", "default")
-  console.log("savedBackgroundTheme: ", savedBackgroundTheme)
   const backgroundTheme = BACKGROUND_THEME[savedBackgroundTheme]
   return (
     <div style={{

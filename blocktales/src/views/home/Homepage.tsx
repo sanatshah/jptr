@@ -8,6 +8,8 @@ import { ArticleList } from './PostList';
 import { Search } from './../../components/Search';
 
 import { _ } from "@homenode/jscore/dist"
+import { formatDistance, subDays } from 'date-fns'
+
 
 import {
   Timeline,
@@ -23,13 +25,13 @@ const customTheme = createTheme(themes.default, {
     backgroundColor: '#efefef',
   },
   date: {
-    backgroundColor: 'rebeccapurple',
+    backgroundColor: '#794cff',
   },
   marker: {
-    borderColor: 'rebeccapurple',
+    borderColor: '#794cff',
   },
   timelineTrack: {
-    backgroundColor: 'rebeccapurple',
+    backgroundColor: '#794cff',
   },
 });
 
@@ -37,7 +39,7 @@ export const Homepage = observer(() => {
   const isSocialConnected = !!_.m().modules.social?.network?.hasUser()
   const isSocialLoading = !!_.m().modules.social?.network?.isLoading
   const isWeb3Connected = _.m().modules.web3?.isConnected
-  const posts = _.m().modules.social?.network?.posts ?? []
+  const posts = _.m().modules.social?.network?.casts ?? []
   return (
     <div style={{
       display: 'grid',
@@ -45,7 +47,8 @@ export const Homepage = observer(() => {
       width: "100%",
       justifyContent: 'center',
       alignContent: 'flex-start',
-      marginTop: "40px"
+      marginTop: "40px",
+      overflowY: 'scroll'
     }}>
       {isSocialConnected && <Search onPostClick={async () => _.m().modules.social?.network?.post("Hello from the BlockTales dApp!")}/>}
       <div style={{ width: "1000px", height: "80vh", backgroundColor: '#b6b6b6'}} >
@@ -71,11 +74,11 @@ export const Homepage = observer(() => {
               )}
               {isSocialConnected && (<TabPanels style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
                 <TabPanel style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
-                  <Timeline theme={customTheme}>
+                  <Timeline theme={customTheme} opts={{layout: "alt-evts"}} >
                   <Events>
                     {posts?.map((value, i) => {
                       return (
-                        <TextEvent key={i} date={"1/1/" + (10 + i).toString()} text={value} />
+                        <TextEvent key={i} date={formatDistance(subDays(new Date(), i), new Date())} text={JSON.stringify((value as any).body.data.text)} />
                       )
                     })}
                   </Events>

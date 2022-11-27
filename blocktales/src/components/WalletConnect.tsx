@@ -58,6 +58,7 @@ export const Account = observer(({
         if ( isSuccess && address && provider && signer) {
           await _.m().modules.web3?.setUser(address, signer, provider)
           await _.m().modules.social?.setup()
+          await _.m().modules.social?.network?.search()
           onAccountSetup()
         }
       }
@@ -100,7 +101,7 @@ export const Account = observer(({
         style={{
           width: "400px",
           height: "200px",
-          backgroundColor: "white",
+          backgroundColor: "#794cff",
           position: "absolute",
           top: "50px",
           borderRadius: "10px",
@@ -112,10 +113,10 @@ export const Account = observer(({
           textAlign: 'left'
         }}
       >
-        <h2 style={{ fontWeight: '700'}}>{network?.user.displayName}</h2>
+        <h1 style={{ fontSize: "20px", color: "white", fontWeight: '700'}}>{network?.user.displayName}</h1>
         <Divider />
-        <div style={{ marginTop: '24px'}}>
-          <p> Theme</p>
+        <div style={{ marginTop: '4px'}}>
+          <p style={{ color: "white"}}> Theme</p>
           <div style={{
             display: "flex",
             gap: "10px",
@@ -149,7 +150,7 @@ export const Account = observer(({
       right: "250px",
       width: "40px",
       height: "40px",
-      backgroundColor: "white",
+      backgroundColor: "rgb(112 118 147)",
       borderRadius: "10px",
       display: 'flex',
       justifyContent: 'center',

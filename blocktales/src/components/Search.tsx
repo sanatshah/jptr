@@ -3,9 +3,7 @@ import { Button, Input } from '@chakra-ui/react';
 
 import { _ } from '@homenode/jscore/dist'
 import { observer } from 'mobx-react-lite';
-import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-import { DelayRender } from './DelayRender';
 
 interface SearchProps {
   onPostClick: () => Promise<void>
