@@ -24,7 +24,7 @@ export const Toolbar = () => {
       backgroundColor: "white",
       borderRadius: '50px'
     }}>
-      <h1 style={{fontSize: "28px", fontWeight: '800', marginTop: "-5px", marginLeft: "10px"}}>blocktales</h1>
+      <h1 style={{fontSize: "28px", fontWeight: '800', marginTop: "-5px", marginLeft: "10px"}}>BlockTales</h1>
     </div>
 
     </div>

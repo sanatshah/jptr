@@ -1,15 +1,24 @@
 import Web3 from "../../../web3/Web3";
-import { Farcaster as FarcasterJs } from "@standard-crypto/farcaster-js";
+import { Farcaster as FarcasterJs, UserRegistry } from "@standard-crypto/farcaster-js";
 import { makeObservable, observable } from "mobx";
 
 import { authHeader, signCast } from "./util";
+import axios, { AxiosInstance } from "axios";
 
 export default class Farcaster {
+  private user;
   private farcaster: FarcasterJs;
+  private readonly axiosInstance: AxiosInstance;
   public posts: string[] = [] 
+  static readonly HOST = "api.farcaster.xyz";
 
   constructor(private web3: Web3) {
     this.open(web3.provider)
+
+    this.axiosInstance = axios.create({
+      baseURL: `https://${Farcaster.HOST}`,
+      validateStatus: (status) => status >= 200 && status < 300,
+    });
   }
 
   public async open(provider: any): Promise<void> {
@@ -22,49 +31,35 @@ export default class Farcaster {
     this.getUser()
     this.usersPosts()
   }
-  public async getUser() {
 
-    const user = await this.farcaster.userRegistry.lookupByUsername('llhungrub');
+  public async getUser() {
+    const user = await this.farcaster.userRegistry.lookupByAddress(this.web3.address);
 
     if (user == null) {
       throw new Error(`no username registered for address ${this.web3.address}`);
     }
 
+    this.user = user
     this.web3.setUserProfile(user.avatar.url)
   }
 
 	public async post(message: string): Promise<void> {
-  
-    const user = await this.farcaster.userRegistry.lookupByUsername('llhungrub');
-
-    if (user == null) {
+    if (this.user == undefined) {
       throw new Error(`no username registered for address ${this.web3.address}`);
     }
 
-    this.web3.setUserProfile(user.avatar.url)
-
     const unsignedCast = await this.farcaster.prepareCast({
-      fromUsername: user.username,
+      fromUsername: this.user.username,
       text: message,
     });
 
-    console.log("unsignedCast: ", unsignedCast)
-    console.log("unsignedCast: ", this.web3.signer)
+    const auth = await authHeader(this.web3.address, this.web3.signer.signMessage.bind(this.web3.signer));
+    const signedCast = await signCast(unsignedCast, this.web3.signer)
 
-    const auth = await authHeader(this.web3.address, this.web3.signer);
-
-    console.log("auth: ", auth)
-
-    const signedCast = signCast(unsignedCast, this.web3.signer)
-
-    console.log("signedCast: ", signedCast)
-
-    /*
-    return await this.axiosInstance.post("/indexer/activity", cast, {
-      headers: { authorization: authHeader },
+    return await this.axiosInstance.post("/indexer/activity", signedCast, {
+      headers: { authorization: auth },
       validateStatus: (status: number) => true,
-    });*/
-
+    });
 	}
 
   public async reply(): Promise<void> {
