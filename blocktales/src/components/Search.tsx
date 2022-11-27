@@ -5,12 +5,7 @@ import { _ } from '@homenode/jscore/dist'
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 
-interface SearchProps {
-  onPostClick: () => Promise<void>
-}
-
-export const Search = observer(({ onPostClick }: SearchProps) => {
-  const [ isButtonClicked, setIsButtonClicked] = React.useState(false)
+export const Search = observer(() => {
   const connectedToFarcaster = !!_.m().modules.social?.network?.hasUser()
   return (
     <div style={{
@@ -24,7 +19,7 @@ export const Search = observer(({ onPostClick }: SearchProps) => {
         </div>
         {connectedToFarcaster && (
           <Link to="/publish">
-            <Button disabled={isButtonClicked}>Create Page</Button>
+            <Button>Create Page</Button>
           </Link>)
         }
     </div>

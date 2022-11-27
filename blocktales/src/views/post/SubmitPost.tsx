@@ -7,45 +7,41 @@ import { Toolbar } from '../../components/Toolbar';
 import { GradientBackground } from '../../components/GradientBackground';
 import { Editor } from '../../components/editor/Editor';
 import { _ } from "@homenode/jscore/dist"
-import { Page, Section } from "@homenode/jscore/dist/apps/blockbook/Blockbook"
+import { Page, Section, SectionTypes } from "@homenode/jscore/dist/apps/blockbook/Blockbook"
 import { OutputData } from '@editorjs/editorjs';
 import toast from 'react-hot-toast';
 
 const createPage = (savedData: OutputData): Page => {
-  console.log("savedData: ", savedData)
   const transactions: string[] = []
   const addresses: string[] = []
   const sections: Section[] = []
 
   savedData.blocks.forEach((block, i) => {
-    switch (block.type) {
+    switch (block.type.toLowerCase()) {
 
-      case 'Txn':
+      case 'txn':
         transactions.push(block.data)
         sections.push({
           id: i.toString(),
-          data: {
-            address: block.data
-          } 
+          type: SectionTypes.TXN,
+          data: block.data 
         })
         break;
 
-      case 'Address':
+      case 'address':
         addresses.push(block.data)
         sections.push({
           id: i.toString(),
-          data: {
-            address: block.data
-          } 
+          type: SectionTypes.ADDRESS,
+          data: block.data 
         })
         break;
 
-      case 'Text':
+      case 'paragraph':
         sections.push({
           id: i.toString(),
-          data: {
-            text: block.data
-          } 
+          type: SectionTypes.TEXT,
+          data: block.data 
         })
         break;
 
@@ -56,7 +52,6 @@ const createPage = (savedData: OutputData): Page => {
         break;
     }
   })
-
 
   return {
     transactions,

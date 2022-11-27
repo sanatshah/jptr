@@ -59,44 +59,36 @@ export default class Farcaster {
     this.web3.setUserProfile(user.avatar.url)
   }
 
-	public async post(message: string): Promise<void> {
+	public async post(message: string, replyTo?: string): Promise<string> {
     if (this.user == undefined) {
       throw new Error(`no username registered for address ${this.web3.address}`);
     }
 
     const unsignedCast = await this.farcaster.prepareCast({
       fromUsername: this.user.username,
+      replyTo,
       text: message,
     });
 
     const auth = await authHeader(this.web3.address, this.web3.signer.signMessage.bind(this.web3.signer));
     const signedCast = await signCast(unsignedCast, this.web3.signer)
 
-    return await this.axiosInstance.post("/indexer/activity", signedCast, {
+    const response = await this.axiosInstance.post("/indexer/activity", signedCast, {
       headers: { authorization: auth },
       validateStatus: (status: number) => true,
     });
+
+    return response.data
 	}
 
-	public async postMany(message: string[]): Promise<void> {
-
-    /*
-    if (this.user == undefined) {
-      throw new Error(`no username registered for address ${this.web3.address}`);
+	public async postMany(casts: string[]): Promise<void> {
+    let replyTo: string | undefined = undefined
+    for (let cast of casts) {
+      console.log("cast", cast)
+      const reply = await this.post(cast, replyTo)
+      console.log("reply : ", reply)
+      replyTo = reply
     }
-
-    const unsignedCast = await this.farcaster.prepareCast({
-      fromUsername: this.user.username,
-      text: message,
-    });
-
-    const auth = await authHeader(this.web3.address, this.web3.signer.signMessage.bind(this.web3.signer));
-    const signedCast = await signCast(unsignedCast, this.web3.signer)
-
-    return await this.axiosInstance.post("/indexer/activity", signedCast, {
-      headers: { authorization: auth },
-      validateStatus: (status: number) => true,
-    });*/
 	}
 
   public async reply(): Promise<void> {
@@ -120,8 +112,8 @@ export default class Farcaster {
     return []
   }
 
-  public async search(): Promise<any[]> {
-    const response = await fetch("https://searchcaster.xyz/api/search?text=test") 
+  public async search(textSearch: string): Promise<any[]> {
+    const response = await fetch(`https://searchcaster.xyz/api/search?text=${textSearch}`) 
     const data = await response.json()
     return data.casts 
   }

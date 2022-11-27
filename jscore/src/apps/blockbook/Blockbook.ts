@@ -14,6 +14,13 @@ interface DependencyInjection {
 
 }
 
+export enum SectionTypes {
+  TXN,
+  ADDRESS,
+  TEXT,
+  GIF
+}
+
 type Txn  ={
   address: string
 }
@@ -31,6 +38,7 @@ type Gif  ={
 
 export interface Section {
   id: string,
+  type: SectionTypes, 
   data: Txn | Address | Text | Gif
 }
 
@@ -72,14 +80,41 @@ export default class BlockBook extends App {
   }
 
   public async publish(page: Page){
-    console.log("got page: ", page)
-    await this.social?.network?.postMany([])
-    throw new Error("Error")
+    const count = page.sections?.length ?? 0
+    console.log("page: ", page)
+    if (!count) {
+      return 
+    }
+
+    const casts = page.sections?.map((section, i) => {
+      console.log("got section: ", section.data)
+      switch (section.type) {
+        case SectionTypes.TXN:
+          return `Looking at transaction : ${(section.data as any).address} [${i+1}/${count}]`
+
+        case SectionTypes.ADDRESS:
+          return `Looking at address : ${(section.data as any).address} [${i+1}/${count}]`
+
+        case SectionTypes.TEXT:
+          return `${(section.data as any).text} [${i+1}/${count}]`
+      }
+
+      return ''
+    })
+
+    const prependBlockbookTag = (text) => {
+      return `@blockbook ${text}`
+    }
+
+    if (casts) {
+      casts[0] = prependBlockbookTag(casts[0])
+      await this.social?.network?.postMany(casts)
+    }
   }
 
 
   private async search(){
-    const casts = await this.social?.network?.search()
+    const casts = await this.social?.network?.search('@blockbook')
 
     const _historicalList: string[] = [] 
 
