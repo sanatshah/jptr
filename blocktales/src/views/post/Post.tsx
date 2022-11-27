@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { DelayRender } from '../../components/DelayRender';
 import { HomeContainer } from '../../components/HomeContainer';
 import { Toolbar } from '../../components/Toolbar';
-import { GradientBackground } from '../home/Home';
+import { GradientBackground } from '../../components/GradientBackground';
 import { PostForm } from './PostForm';
 
 export const Post = () => {
@@ -36,12 +36,12 @@ export const Post = () => {
                   {/*<Button variant={'ghost'}>Save</Button>*/}
                 </div>
                   <Link to="/">
-                <Button variant={'ghost'} style={{ marginRight: "16px"}}>Cancel</Button>
+                <Button colorScheme={'whiteAlpha'} variant={'ghost'} style={{ marginRight: "16px"}}>Cancel</Button>
                   </Link>
                 </DelayRender>
               </div>
               <DelayRender>
-              <Button colorScheme={'gray'} variant={'outline'}>Publish</Button>
+              <Button colorScheme={'gray'} variant={'solid'}>Publish</Button>
                 </DelayRender>
             </div>
           )}

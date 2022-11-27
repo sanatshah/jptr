@@ -49,7 +49,7 @@ export const Homepage = observer(() => {
     }}>
       {isSocialConnected && <Search onPostClick={async () => _.m().modules.social?.network?.post("Hello from the BlockTales dApp!")}/>}
       <div style={{ width: "1000px", height: "80vh", backgroundColor: '#b6b6b6'}} >
-          <Tabs css={{ width: "100%", }}variant='soft-rounded' >
+          <Tabs css={{ width: "100%", }}variant='soft-rounded' colorScheme={'whiteAlpha'}>
             <div style={{display: 'flex', minHeight:'80px', justifyContent: 'space-between', width: '100%', position: "sticky", top: "-21px", backgroundColor: "rgb(255 255 255 / 16%)", padding: "20px"}}>
             {isSocialConnected && (<TabList>
                 <Tab>History</Tab>

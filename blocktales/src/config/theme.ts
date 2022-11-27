@@ -14,4 +14,27 @@ const colors = {
   },
 }
 
+export const BACKGROUND_THEME = {
+  "default": {
+    1: "rgb(235 74 230)",
+    2: "rgb(74 101 235)",
+    3: "rgb(241 220 118)",
+    4: "hsla(262.03125, 79.71%, 60.58%, 1.00)"
+  },
+  "forest": {
+    1: "rgb(112 118 147)",
+    2: "rgb(3 40 6)",
+    3: "rgb(147 77 77)",
+    4: "rgb(129 141 176)"
+  },
+  "green": {
+
+  },
+  "blue": {
+  },
+  "yellow": {
+
+  }
+}
+
 export const theme = extendTheme({ colors })

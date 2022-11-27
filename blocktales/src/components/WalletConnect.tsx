@@ -10,6 +10,9 @@ import { chain, configureChains, createClient, WagmiConfig, useProvider, useAcco
 
 import { _ } from "@homenode/jscore/dist/Core"
 import { observer } from 'mobx-react-lite';
+import { Button, Divider, IconButton } from '@chakra-ui/react';
+import { BACKGROUND_THEME } from '../config/theme';
+import { useLocalStorage } from 'usehooks-ts'
 
 const projectID = '53f57bac7dd366a79f4083f23b2b773b' 
 
@@ -43,6 +46,9 @@ export const Account = observer(({
   const { data: signer, isSuccess } = useSigner()
   const provider = useProvider()
 
+  const [ showProfileSettings, setShowProfileSettings ] = React.useState(false)
+  const [ backgroundTheme, setBackgroundTheme ] = useLocalStorage("background-theme", "default")
+
   React.useEffect(() => {
       if (_.m().modules.web3?.isConnected) {
         return 
@@ -70,6 +76,8 @@ export const Account = observer(({
     return null
   }
 
+  const network = _.m().modules.social?.network
+
   if (web3?.user.profileURL) {
     return <div style={{
       position: 'absolute',
@@ -83,7 +91,54 @@ export const Account = observer(({
       alignItems: 'center',
       textAlign: 'center'
     }}>
-      <img src={web3?.user.profileURL} width="40px" height="40px" style={{borderRadius: '10px'}} />
+      <IconButton
+        aria-label='profile'
+        onClick={() => setShowProfileSettings(showProfileSettings => !showProfileSettings)}
+        icon={<img src={web3?.user.profileURL} width="40px" height="40px" style={{borderRadius: '10px'}} />}
+      />
+      {showProfileSettings && <div
+        style={{
+          width: "400px",
+          height: "200px",
+          backgroundColor: "white",
+          position: "absolute",
+          top: "50px",
+          borderRadius: "10px",
+          boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+          padding: '24px',
+          display: 'flex',
+          flexDirection: "column",
+          justifyContent: 'flex-start',
+          textAlign: 'left'
+        }}
+      >
+        <h2 style={{ fontWeight: '700'}}>{network?.user.displayName}</h2>
+        <Divider />
+        <div style={{ marginTop: '24px'}}>
+          <p> Theme</p>
+          <div style={{
+            display: "flex",
+            gap: "10px",
+            marginTop: "8px"
+          }}>
+            {Object.keys(BACKGROUND_THEME).map((value: string) => {
+              const theme = BACKGROUND_THEME[value]
+              return (
+                <Button
+                  onClick={() => setBackgroundTheme(value)}
+                  style={{
+                    width: '28px',
+                    height: '28px',
+                    borderRadius: '10px',
+                    backgroundColor: theme[1],
+                    ...(backgroundTheme === value ? {border: "solid 2px black"}: {})
+                  }}>
+                </Button>
+              )
+            })}
+          </div>
+        </div>
+      </div>}
     </div>
   }
 

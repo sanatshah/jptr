@@ -3671,6 +3671,15 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
+"@types/react@^16.8.3":
+  version "16.14.34"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.14.34.tgz#d129324ffda312044e1c47aab18696e4ed493282"
+  integrity sha512-b99nWeGGReLh6aKBppghVqp93dFJtgtDOzc8NXM6hewD8PQ2zZG5kBLgbx+VJr7Q7WBMjHxaIl3dwpwwPIUgyA==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
 "@types/resolve@1.17.1":
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-1.17.1.tgz#3afd6ad8967c77e4376c598a82ddd58f46ec45d6"
@@ -11928,6 +11937,13 @@ use-callback-ref@^1.3.0:
   dependencies:
     tslib "^2.0.0"
 
+use-hooks@^2.0.0-rc.5:
+  version "2.0.0-rc.5"
+  resolved "https://registry.yarnpkg.com/use-hooks/-/use-hooks-2.0.0-rc.5.tgz#05bdfb89cf088ef49961858b529d090a15f48680"
+  integrity sha512-85OzZPao3Rk6GFJqaeTHRj5MluTFhzDxUikwytiwJYGR4+2tEeH86Ym1DMDM6NzJ3bwueaX7kc+rlF/5J074TA==
+  dependencies:
+    "@types/react" "^16.8.3"
+
 use-sidecar@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/use-sidecar/-/use-sidecar-1.1.2.tgz#2f43126ba2d7d7e117aa5855e5d8f0276dfe73c2"
@@ -11940,6 +11956,11 @@ use-sync-external-store@1.2.0, use-sync-external-store@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
   integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
+
+usehooks-ts@^2.9.1:
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/usehooks-ts/-/usehooks-ts-2.9.1.tgz#953d3284851ffd097432379e271ce046a8180b37"
+  integrity sha512-2FAuSIGHlY+apM9FVlj8/oNhd+1y+Uwv5QNkMQz1oSfdHk4PXo1qoCw9I5M7j0vpH8CSWFJwXbVPeYDjLCx9PA==
 
 utf-8-validate@^5.0.2:
   version "5.0.10"

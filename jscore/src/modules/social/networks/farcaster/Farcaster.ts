@@ -12,7 +12,7 @@ export default class Farcaster {
 
   private farcaster: FarcasterJs;
 
-  private user;
+  public user;
   public posts: string[] = [] 
 
   public isLoading: boolean = false; 
