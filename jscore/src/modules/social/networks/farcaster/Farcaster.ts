@@ -70,6 +70,8 @@ export default class Farcaster {
       text: message,
     });
 
+    throw new Error("Posting failed!")
+
     const auth = await authHeader(this.web3.address, this.web3.signer.signMessage.bind(this.web3.signer));
     const signedCast = await signCast(unsignedCast, this.web3.signer)
 

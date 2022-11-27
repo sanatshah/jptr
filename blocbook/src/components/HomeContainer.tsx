@@ -12,7 +12,7 @@ export const HomeContainer = ({ header, children }: { header: React.ReactNode, c
       alignContent: 'flex-start',
       marginTop: "40px"
     }}>
-      <div style={{ width: "1000px", height: "80vh", backgroundColor: '#b6b6b6', marginTop: '60px'}} >
+      <div style={{ width: "1000px", height: "80vh", backgroundColor: '#b6b6b6', marginTop: '56px', marginLeft: "-14px"}} >
         <div style={{
           display: 'flex',
           minHeight:'80px',

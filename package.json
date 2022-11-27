@@ -5,7 +5,8 @@
   "description": "web3 browser",
   "main": "index.js",
   "scripts": {
-    "run": "tsc -w"
+    "run": "tsc -w",
+    "build-blocbook": "cd ./blocbook && yarn build"
   },
   "author": "Sanat Shah",
   "license": "MIT"
