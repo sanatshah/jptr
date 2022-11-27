@@ -10,7 +10,7 @@ export class Gif {
   private wrapperId;
 
   constructor(){
-    this.gf = new GiphyFetch('sXpGFDGZs0Dv1mmNFvYaGUvYwKX0PWIh')
+    this.gf = new GiphyFetch('3nPIReGqjpWelvAL2G9DzqbP2xUJOZSB')
 
   }
   static get toolbox() {
@@ -61,6 +61,7 @@ export class Gif {
   render(){
     const wrapper = document.createElement('div');
     wrapper.id = "gif"
+    wrapper.style.width = "inherit"
     wrapper.style.height = "300px"
     wrapper.style.overflowY = "scroll"
     wrapper.style.overflowY = "scroll"

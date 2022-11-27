@@ -116,7 +116,7 @@ export const Account = observer(({
         <h1 style={{ fontSize: "20px", color: "white", fontWeight: '700'}}>{network?.user.displayName}</h1>
         <Divider />
         <div style={{ marginTop: '4px'}}>
-          <p style={{ color: "white"}}> Theme</p>
+          <p style={{ color: "white"}}> Theme: {backgroundTheme} </p>
           <div style={{
             display: "flex",
             gap: "10px",
