@@ -1,5 +1,18 @@
+import ReactDOM from 'react-dom/client';
+import { GiphyFetch } from "@giphy/js-fetch-api";
+import { throttle } from 'throttle-debounce'
+import { renderGrid } from '@giphy/js-components'
+import { wrap } from 'module';
 
 export class Gif {
+  private gf;
+  private elId;
+  private wrapperId;
+
+  constructor(){
+    this.gf = new GiphyFetch('sXpGFDGZs0Dv1mmNFvYaGUvYwKX0PWIh')
+
+  }
   static get toolbox() {
     return {
       title: 'Gif',
@@ -7,39 +20,81 @@ export class Gif {
     };
   }
 
+  private fetchGifs = (offset: number) => {
+    // use whatever end point you want,
+    // but be sure to pass offset to paginate correctly
+    return this.gf.trending({ offset, limit: 25 })
+  }
+
+  // Creating a grid with window resizing and remove-ability
+  private makeGrid = (targetEl: HTMLElement) => {
+      const render = () => {
+          // here is the @giphy/js-components import
+          const wrapper = document.getElementById(this.wrapperId)
+          let width = 400
+
+          if (wrapper) {
+            width = wrapper?.getBoundingClientRect().left - wrapper?.getBoundingClientRect().right
+          }
+
+          return renderGrid(
+              {
+                  fetchGifs: this.fetchGifs,
+                  width,
+                  columns: window.innerWidth < 500 ? 2 : 3,
+                  gutter: 6,
+              },
+              targetEl
+          )
+      }
+      const resizeRender = throttle(500, render)
+      window.addEventListener('resize', resizeRender, false)
+      const remove = render()
+      return {
+          remove: () => {
+              remove()
+              window.removeEventListener('resize', resizeRender, false)
+          },
+      }
+  }
+
   render(){
     const wrapper = document.createElement('div');
-    wrapper.style.display = 'flex'
-    wrapper.style.flexDirection = 'flex'
-    wrapper.style.position = 'relative'
-    wrapper.style.height = '60px'
-    wrapper.style.marginBottom = '60px'
+    wrapper.id = "gif"
+    wrapper.style.height = "300px"
+    wrapper.style.overflowY = "scroll"
+    wrapper.style.overflowY = "scroll"
+    this.wrapperId =wrapper.id
 
     const input = document.createElement('input');
     input.style.width = "100%"
     input.style.height = "40px"
     input.style.padding = "8px"
-    input.style.paddingLeft = "60px"
+    input.style.paddingLeft = "48px"
     input.style.borderRadius = "10px"
-    input.style.backgroundColor = "rgb(85 255 137)"
-    input.style.color = "black"
-
-    const adornment = document.createElement('div');
-    adornment.style.width = "100px"
-    adornment.style.height = "40px"
-    adornment.style.color = "black"
-    adornment.style.position = "absolute"
-    adornment.style.left = "10px"
-    adornment.style.top = "9px"
-    adornment.style.fontSize = "14px"
-    adornment.style.fontWeight = "800"
-    adornment.innerHTML ="ADDR: "
-
+    input.style.backgroundColor = "rgb(255 255 255 / 24%)"
+    input.style.color = "wheat"
+    input.style.marginBottom = "16px"
+    input.style.border = "0px"
     wrapper.appendChild(input)
-    wrapper.appendChild(adornment)
 
+    const element = document.createElement('div');
+    element.id = "giphy"
+
+    wrapper.appendChild(element)
+    this.elId = element.id
 
     return wrapper;
+  }
+
+  rendered(){
+    const el = document.getElementById(this.elId)
+    
+    if (!el) {
+      return
+    }
+
+    this.makeGrid(el)
   }
 
   save(blockContent){
