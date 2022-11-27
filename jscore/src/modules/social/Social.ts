@@ -45,6 +45,7 @@ export default class Social extends Module {
       throw new Error("Missing Module!")
     }
     this.network = new Farcaster(this.core.modules.web3)
+    this.isReady = true
   }
 
   async restart(): Promise<void> {

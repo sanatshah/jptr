@@ -53,7 +53,9 @@ export default class Web3 extends Module {
   } 
 
   async start(){
-    // Load anything from storage 
+    //TODO:  Load anything from storage 
+
+
   }
 
   public setUser(address, signer, provider){
@@ -61,6 +63,7 @@ export default class Web3 extends Module {
     this._signer = signer;
     this._provider = provider
     this.isConnected = true
+    this.isReady = true
   }
 
   public setUserProfile(profileURL){
@@ -77,7 +80,4 @@ export default class Web3 extends Module {
     this._provider = undefined
   }
 
-  private setup(){
-
-  }
 }

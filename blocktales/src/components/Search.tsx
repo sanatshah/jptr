@@ -24,7 +24,7 @@ export const Search = observer(({ onPostClick }: SearchProps) => {
         </div>
         {connectedToFarcaster && (
           <Link to="/publish">
-            <Button disabled={isButtonClicked}>Post</Button>
+            <Button disabled={isButtonClicked}>Create Page</Button>
           </Link>)
         }
     </div>

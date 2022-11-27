@@ -1,5 +1,5 @@
 
-import { reaction, observable, makeAutoObservable } from "mobx";
+import { reaction, observable, makeAutoObservable, autorun } from "mobx";
 
 /**
  * Modules 
@@ -9,10 +9,15 @@ import Module from "./modules/Module";
 import ModuleManager from "./modules/ModuleManager";
 
 /**
+ * App
+ */
+import AppConfig from "./apps/App.config";
+import AppManager from "./apps/AppManager";
+
+/**
  * Constants
  */
 import ConstantsManager from "./constants/ConstantsManager";
-import { AppConfig } from "./constants/AppConfig";
 import { AuthenticationState } from "./constants/Authentication";
 export let coreConstants: ConstantsManager;
 
@@ -35,6 +40,7 @@ export default class Core<T=any,L=any> {
 
     @observable public constants: ConstantsManager;
     @observable public modules: ModuleManager = {};
+    @observable public apps: AppManager = {};
     @observable public stores: T = {} as T;
     public libs: L = {} as L;
 
@@ -165,6 +171,7 @@ export default class Core<T=any,L=any> {
 
         await this.startStores();
         await this.startLibs();
+        await this.startApps();
 
         //Run callbacks for anyone who is waiting for everything to start up.
         await this.postStart();
@@ -238,6 +245,52 @@ export default class Core<T=any,L=any> {
         }
 
         this.stores[inject.constructor.name.toLowerCase()]._();
+      })
+    }
+
+    /*************************
+     * App Lifecycle Methods 
+     *************************/
+
+    private async startApps(){
+      this.config.apps.forEach(async (appConfig) => {
+        const app = AppConfig[appConfig.name]
+
+        if (!app) {
+          console.log(`# No app found - ${appConfig.name}`)
+        }
+
+        if (appConfig.dependencies && appConfig.dependencies.length > 0) {
+          //this.modules.
+          const isReadyModules: Module[] = appConfig.dependencies
+            .filter((dependencyName) => this.modules[dependencyName])
+            .map((dependencyName) => this.modules[dependencyName]
+          )
+
+          const initializedApp = await app.init(this, appConfig.name, appConfig.config, appConfig.dependencies);
+
+          autorun(async () => {
+            let isReady = true
+            for (let module of isReadyModules) {
+              isReady = isReady && module.isReady
+            }
+
+            if (isReady) {
+              await initializedApp.start()
+              console.log(`# ${appConfig.name} - started`)
+            }
+
+          })
+
+          console.log(`# ${appConfig.name} - waiting for module(s) ready state`)
+        } else {
+          //Initialize the module and add to core
+          const initializedApp = await app.init(this, appConfig.name, appConfig.config, appConfig.dependencies);
+          await initializedApp.start()
+
+          console.log(`# ${appConfig.name} - started`)
+        }
+
       })
     }
 

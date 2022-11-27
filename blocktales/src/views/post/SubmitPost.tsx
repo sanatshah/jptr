@@ -6,8 +6,13 @@ import { HomeContainer } from '../../components/HomeContainer';
 import { Toolbar } from '../../components/Toolbar';
 import { GradientBackground } from '../../components/GradientBackground';
 import { Editor } from '../../components/editor/Editor';
+import { _ } from "@homenode/jscore/dist"
 
 export const SubmitPost = () => {
+
+  const publishPost = () => {
+  }
+
   return (
       <div className="App" style={{
         position: 'relative',
@@ -41,7 +46,7 @@ export const SubmitPost = () => {
                 </DelayRender>
               </div>
               <DelayRender>
-              <Button colorScheme={'gray'} variant={'solid'}>Publish</Button>
+              <Button colorScheme={'gray'} variant={'solid'} onClick={publishPost}>Publish</Button>
                 </DelayRender>
             </div>
           )}

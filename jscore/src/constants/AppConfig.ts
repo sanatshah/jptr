@@ -3,5 +3,6 @@ export interface AppConfig {
   child: boolean,
   version : string,
   env : string, 
-  modules : any 
+  modules : any,
+  apps: any
 }

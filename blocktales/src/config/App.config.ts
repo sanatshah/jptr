@@ -10,6 +10,14 @@ export const config = {
       platforms: PlatformState.Web
     },
     web3: {},
-    social: {}
-  }
+    social: {
+      network: 'FARCASTER'
+    }
+  },
+  apps: [
+    {
+      name: 'blockbook',
+      dependencies: [ "web3", "social" ]
+    }
+  ]
 }
