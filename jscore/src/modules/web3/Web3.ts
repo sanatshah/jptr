@@ -1,5 +1,6 @@
 import Module from "../Module";
 import Core from "../../Core";
+import { makeObservable, observable } from "mobx";
 
 
 /**
@@ -27,12 +28,15 @@ export default class Web3 extends Module {
   private _signer: any;
   private _provider: any;
 
-  public user: User;
+  public user: User = {};
 
   public isConnected: boolean = false;
 
   constructor(core : Core<{}>, private config : Config, private dependencyInjection: DependencyInjection) {
     super(core);
+    makeObservable(this, {
+      user: observable
+    })
   }
 
   get address() {

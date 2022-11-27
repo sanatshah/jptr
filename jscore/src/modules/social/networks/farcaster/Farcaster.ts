@@ -1,32 +1,8 @@
 import Web3 from "../../../web3/Web3";
-import Network from "../../Network";
-import { Farcaster as FarcasterJs, MessageBody, MessageBodyType, serializeMessageBody, SignedCast } from "@standard-crypto/farcaster-js";
-import { Signer } from "ethers";
-import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
+import { Farcaster as FarcasterJs } from "@standard-crypto/farcaster-js";
 import { makeObservable, observable } from "mobx";
 
-
-const signCast = async (
-  cast: MessageBody,
-  signer: Signer
-): Promise<SignedCast> => {
-  if (cast.address !== (await signer.getAddress())) {
-    throw new Error(
-      `The address ${cast.address} for user ${
-        cast.username
-      } does not match the address of the provided signer: ${await signer.getAddress()}`
-    );
-  }
-  const serializedCast = serializeMessageBody(cast);
-  const merkleRoot = keccak256(toUtf8Bytes(serializedCast));
-  const signature = await signer.signMessage(merkleRoot);
-  return {
-    body: cast,
-    merkleRoot,
-    signature,
-  };
-}
-
+import { authHeader, signCast } from "./util";
 
 export default class Farcaster {
   private farcaster: FarcasterJs;
@@ -43,7 +19,18 @@ export default class Farcaster {
       posts: observable
     })
 
+    this.getUser()
     this.usersPosts()
+  }
+  public async getUser() {
+
+    const user = await this.farcaster.userRegistry.lookupByUsername('llhungrub');
+
+    if (user == null) {
+      throw new Error(`no username registered for address ${this.web3.address}`);
+    }
+
+    this.web3.setUserProfile(user.avatar.url)
   }
 
 	public async post(message: string): Promise<void> {
@@ -61,10 +48,17 @@ export default class Farcaster {
       text: message,
     });
 
-    //const authHeader = await authHeader(wallet);
-    //const signedCast = signCast(unsignedCast, signer)
+    console.log("unsignedCast: ", unsignedCast)
+    console.log("unsignedCast: ", this.web3.signer)
 
-    //console.log("signedCast: ", signedCast)
+    const auth = await authHeader(this.web3.address, this.web3.signer);
+
+    console.log("auth: ", auth)
+
+    const signedCast = signCast(unsignedCast, this.web3.signer)
+
+    console.log("signedCast: ", signedCast)
+
     /*
     return await this.axiosInstance.post("/indexer/activity", cast, {
       headers: { authorization: authHeader },

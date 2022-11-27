@@ -9,6 +9,7 @@ import { Web3Button, Web3Modal } from "@web3modal/react";
 import { chain, configureChains, createClient, WagmiConfig, useProvider, useAccount, useConnect, useClient, useSigner, useSignMessage } from "wagmi";
 
 import { _ } from "@homenode/jscore/dist/Core"
+import { observer } from 'mobx-react-lite';
 
 const projectID = '53f57bac7dd366a79f4083f23b2b773b' 
 
@@ -30,7 +31,7 @@ interface WalletConnectProps {
   children: React.ReactNode
 }
 
-export const Account = ({
+export const Account = observer(({
   onAccountSetup
 }: {
   onAccountSetup: () => void
@@ -87,7 +88,7 @@ export const Account = ({
       right: "250px",
       width: "40px",
       height: "40px",
-      backgroundColor: "#cb5b4f",
+      backgroundColor: "white",
       borderRadius: "10px",
       display: 'flex',
       justifyContent: 'center',
@@ -97,7 +98,7 @@ export const Account = ({
       <p style={{ fontSize: "12px", color: "white"}}>{address.substring(0, 5)}</p>
     </div>
   )
-}
+})
 
 export const WalletConnect = ({ children }: WalletConnectProps) => {
   const [ isReady, setIsReady ] = React.useState(false)

@@ -34,8 +34,6 @@ const customTheme = createTheme(themes.default, {
 
 export const Homepage = observer(() => {
   const posts = _.m().modules.social?.network?.posts ?? []
-
-  console.log("posts: ", posts)
   return (
     <div style={{
       display: 'grid',
@@ -45,7 +43,7 @@ export const Homepage = observer(() => {
       alignContent: 'flex-start',
       marginTop: "40px"
     }}>
-      <Search />
+      <Search onPostClick={async () => _.m().modules.social?.network.post("Hello from a dApp!")}/>
       <div style={{ width: "1000px", height: "80vh", backgroundColor: '#b6b6b6'}} >
           <Tabs css={{ width: "100%", }}variant='soft-rounded' >
             <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', position: "sticky", top: "-21px", backgroundColor: "rgb(255 255 255 / 18%)", padding: "20px"}}>
