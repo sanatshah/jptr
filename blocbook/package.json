@@ -13,7 +13,7 @@
     "@giphy/js-fetch-api": "^4.4.0",
     "@giphy/js-types": "^4.2.1",
     "@giphy/react-components": "^6.2.0",
-    "@homenode/jscore": "../jscore/",
+    "@homenode/jscore": "^1.0.0",
     "@merc/react-timeline": "^0.1.42",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@standard-crypto/farcaster-js": "^3.0.7",
