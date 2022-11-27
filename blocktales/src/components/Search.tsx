@@ -23,12 +23,8 @@ export const Search = observer(({ onPostClick }: SearchProps) => {
           {false && <Input style={{ marginRight: "16px"}}variant="outline" placeholder='Lookup address(es)' />}
         </div>
         {connectedToFarcaster && (
-          <Link to="/post">
-            <Button disabled={isButtonClicked} onClick={async () => {
-              setIsButtonClicked(true)
-              await onPostClick()
-              setIsButtonClicked(false)
-            }}>Post</Button>
+          <Link to="/publish">
+            <Button disabled={isButtonClicked}>Post</Button>
           </Link>)
         }
     </div>

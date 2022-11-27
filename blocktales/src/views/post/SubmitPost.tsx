@@ -7,7 +7,7 @@ import { Toolbar } from '../../components/Toolbar';
 import { GradientBackground } from '../../components/GradientBackground';
 import { Editor } from '../../components/editor/Editor';
 
-export const Post = () => {
+export const SubmitPost = () => {
   return (
       <div className="App" style={{
         position: 'relative',
@@ -60,6 +60,7 @@ export const Post = () => {
               }}
             >
               <DelayRender>
+                <Editor />
               </DelayRender>
             </div>
           </div>

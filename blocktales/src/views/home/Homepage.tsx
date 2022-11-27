@@ -10,19 +10,18 @@ import { Search } from './../../components/Search';
 import { _ } from "@homenode/jscore/dist"
 import { formatDistance, subDays } from 'date-fns'
 
-
 import {
   Timeline,
   Events,
-  TextEvent,
   createTheme,
   themes
 } from '@merc/react-timeline';
-import { DelayRender } from '../../components/DelayRender';
+import { BlockEvent } from '../../components/BlockEvent';
 
 const customTheme = createTheme(themes.default, {
   card: {
-    backgroundColor: '#efefef',
+    backgroundColor: 'black',
+    color: 'white'
   },
   date: {
     backgroundColor: '#794cff',
@@ -74,11 +73,11 @@ export const Homepage = observer(() => {
               )}
               {isSocialConnected && (<TabPanels style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
                 <TabPanel style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
-                  <Timeline theme={customTheme} opts={{layout: "alt-evts"}} >
+                  <Timeline theme={customTheme} opts={{layout: "inline-evts"}} >
                   <Events>
                     {posts?.map((value, i) => {
                       return (
-                        <TextEvent key={i} date={formatDistance(subDays(new Date(), i), new Date())} text={JSON.stringify((value as any).body.data.text)} />
+                        <BlockEvent key={i} date={formatDistance(subDays(new Date(), i), new Date())} text={JSON.stringify((value as any).body.data.text)} />
                       )
                     })}
                   </Events>
