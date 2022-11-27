@@ -74,20 +74,34 @@ export const Homepage = observer(() => {
               )}
               {isSocialConnected && (<TabPanels style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
                 <TabPanel style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
-                  <Timeline theme={customTheme} opts={{layout: "inline-evts"}} >
-                  <Events>
-                    {historicalList?.map((value, i) => {
-                      const page = _.m().apps.blockbook?.getPage(value)
-                      if (!page) {
-                        return 
-                      }
-                      
-                      return (
-                        <BlockEvent key={i} date={formatDistance(subDays(new Date(), i), new Date())} text={"hi"} />
-                      )
-                    })}
-                  </Events>
-                </Timeline>
+                  {!historicalList.length ? (
+                    <div style={{
+                      display:"flex",
+                      width: "100%",
+                      height: "100%",
+                      justifyContent: "center",
+                      alignItems: 'center',
+                      marginTop: "100px"
+                    }}>
+                      <p style={{ color: "white"}}>no pages found</p>
+                    </div>
+                  ): (
+                    <Timeline theme={customTheme} opts={{layout: "inline-evts"}} >
+                    <Events>
+                      {historicalList?.map((value, i) => {
+                        const page = _.m().apps.blockbook?.getPage(value)
+                        if (!page) {
+                          return 
+                        }
+                        
+                        return (
+                          <BlockEvent key={i} date={formatDistance(subDays(new Date(), i), new Date())} text={"hi"} />
+                        )
+                      })}
+                    </Events>
+                  </Timeline>
+
+                  )}
               </TabPanel>
                 <TabPanel>
                     <div style={{

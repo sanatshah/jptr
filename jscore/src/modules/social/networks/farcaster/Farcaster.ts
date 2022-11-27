@@ -84,9 +84,7 @@ export default class Farcaster {
 	public async postMany(casts: string[]): Promise<void> {
     let replyTo: string | undefined = undefined
     for (let cast of casts) {
-      console.log("cast", cast)
       const reply = await this.post(cast, replyTo)
-      console.log("reply : ", reply)
       replyTo = reply
     }
 	}
