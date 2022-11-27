@@ -35,7 +35,8 @@ export default class Web3 extends Module {
   constructor(core : Core<{}>, private config : Config, private dependencyInjection: DependencyInjection) {
     super(core);
     makeObservable(this, {
-      user: observable
+      user: observable,
+      isConnected: observable
     })
   }
 
@@ -59,12 +60,21 @@ export default class Web3 extends Module {
     this._address = address;
     this._signer = signer;
     this._provider = provider
+    this.isConnected = true
   }
 
   public setUserProfile(profileURL){
     this.user = {
       profileURL: profileURL
     }
+  }
+
+  async restart(){
+    this.user = {};
+    this.isConnected = false
+    this._address = undefined
+    this._signer = undefined
+    this._provider = undefined
   }
 
   private setup(){

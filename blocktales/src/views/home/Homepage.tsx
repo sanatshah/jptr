@@ -33,6 +33,9 @@ const customTheme = createTheme(themes.default, {
 });
 
 export const Homepage = observer(() => {
+  const isSocialConnected = !!_.m().modules.social?.network?.hasUser()
+  const isSocialLoading = !!_.m().modules.social?.network?.isLoading
+  const isWeb3Connected = _.m().modules.web3?.isConnected
   const posts = _.m().modules.social?.network?.posts ?? []
   return (
     <div style={{
@@ -43,17 +46,29 @@ export const Homepage = observer(() => {
       alignContent: 'flex-start',
       marginTop: "40px"
     }}>
-      <Search onPostClick={async () => _.m().modules.social?.network.post("Hello from a dApp!")}/>
+      {isSocialConnected && <Search onPostClick={async () => _.m().modules.social?.network?.post("Hello from the BlockTales dApp!")}/>}
       <div style={{ width: "1000px", height: "80vh", backgroundColor: '#b6b6b6'}} >
           <Tabs css={{ width: "100%", }}variant='soft-rounded' >
-            <div style={{display: 'flex', justifyContent: 'space-between', width: '100%', position: "sticky", top: "-21px", backgroundColor: "rgb(255 255 255 / 18%)", padding: "20px"}}>
-            <TabList>
+            <div style={{display: 'flex', minHeight:'80px', justifyContent: 'space-between', width: '100%', position: "sticky", top: "-21px", backgroundColor: "rgb(255 255 255 / 18%)", padding: "20px"}}>
+            {isSocialConnected && (<TabList>
                 <Tab>History</Tab>
                 <Tab>New</Tab>
                 <Tab>Top</Tab>
-            </TabList>
+            </TabList>)}
             </div>
-              <TabPanels style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
+              {!isSocialConnected && isWeb3Connected && !isSocialLoading && (
+                <div style={{
+                  display:"flex",
+                  width: "100%",
+                  height: "100%",
+                  justifyContent: "center",
+                  alignItems: 'center',
+                  marginTop: "100px"
+                }}>
+                  <p style={{ color: "white"}}>writr requires a farcaster account</p>
+                </div>
+              )}
+              {isSocialConnected && (<TabPanels style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
                 <TabPanel style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
                   <Timeline theme={customTheme}>
                   <Events>
@@ -71,7 +86,7 @@ export const Homepage = observer(() => {
                 <TabPanel>
                   <ArticleList />
                 </TabPanel>
-            </TabPanels>
+            </TabPanels>)}
           </Tabs>
 
       </div>

@@ -4,6 +4,7 @@ import reportWebVitals from './reportWebVitals';
 
 import { RouterProvider } from "react-router-dom";
 import { ChakraProvider } from '@chakra-ui/react'
+import { Toaster } from 'react-hot-toast'
 
 import { theme } from './config/theme'
 import { router } from './config/routes';
@@ -28,6 +29,7 @@ const root = ReactDOM.createRoot(
           <React.StrictMode>
             <WalletConnect>
               <ChakraProvider theme={theme}>
+                <Toaster position="top-center" reverseOrder={false}/>
                 <RouterProvider router={router} />
               </ChakraProvider>
             </WalletConnect>

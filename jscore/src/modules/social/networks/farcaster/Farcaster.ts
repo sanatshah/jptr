@@ -6,11 +6,16 @@ import { authHeader, signCast } from "./util";
 import axios, { AxiosInstance } from "axios";
 
 export default class Farcaster {
-  private user;
-  private farcaster: FarcasterJs;
-  private readonly axiosInstance: AxiosInstance;
-  public posts: string[] = [] 
+
   static readonly HOST = "api.farcaster.xyz";
+  private readonly axiosInstance: AxiosInstance;
+
+  private farcaster: FarcasterJs;
+
+  private user;
+  public posts: string[] = [] 
+
+  public isLoading: boolean = false; 
 
   constructor(private web3: Web3) {
     this.open(web3.provider)
@@ -22,18 +27,27 @@ export default class Farcaster {
   }
 
   public async open(provider: any): Promise<void> {
+    this.isLoading = true
     this.farcaster = new FarcasterJs(provider);
 
     makeObservable(this, {
-      posts: observable
+      posts: observable,
+      isLoading: observable
     })
 
-    this.getUser()
+    await this.getUser()
+
+    this.isLoading = false;
     this.usersPosts()
   }
 
+  public hasUser() {
+    return !!this.user
+  }
+
   public async getUser() {
-    const user = await this.farcaster.userRegistry.lookupByAddress(this.web3.address);
+    //const user = await this.farcaster.userRegistry.lookupByAddress(this.web3.address);
+    const user = await this.farcaster.userRegistry.lookupByUsername("llhungrub");
 
     if (user == null) {
       throw new Error(`no username registered for address ${this.web3.address}`);

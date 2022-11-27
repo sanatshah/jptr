@@ -60,6 +60,7 @@
     "react-chrono": "^1.19.2",
     "react-dev-utils": "^12.0.1",
     "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.4.0",
     "react-refresh": "^0.11.0",
     "react-router": "^6.4.3",
     "react-router-dom": "^6.4.3",

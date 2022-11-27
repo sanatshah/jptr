@@ -36,10 +36,12 @@ export const Account = observer(({
 }: {
   onAccountSetup: () => void
 }) => {
-  const { address } = useAccount()
+  const { address } = useAccount({onDisconnect: () => {
+    _.m().modules.web3?.restart()
+    _.m().modules.social?.restart()}
+  })
   const { data: signer, isSuccess } = useSigner()
   const provider = useProvider()
-
 
   React.useEffect(() => {
       if (_.m().modules.web3?.isConnected) {
@@ -55,7 +57,6 @@ export const Account = observer(({
       }
 
       connect()
-
   }, [ address, signer, provider, isSuccess ])
 
   if (!address || !_.m().modules.web3?.user) {
@@ -63,6 +64,11 @@ export const Account = observer(({
   }
 
   const web3 = _.m().modules.web3
+  const connectedToFarcaster = !!_.m().modules.social?.network?.hasUser()
+
+  if (!connectedToFarcaster) {
+    return null
+  }
 
   if (web3?.user.profileURL) {
     return <div style={{
@@ -95,18 +101,17 @@ export const Account = observer(({
       alignItems: 'center',
       textAlign: 'center'
     }}>
-      <p style={{ fontSize: "12px", color: "white"}}>{address.substring(0, 5)}</p>
+      <p style={{ fontSize: "12px", color: "black"}}>{address.substring(0, 5)}</p>
     </div>
   )
 })
 
 export const WalletConnect = ({ children }: WalletConnectProps) => {
   const [ isReady, setIsReady ] = React.useState(false)
-
   return (
     <>
       <WagmiConfig client={wagmiClient}>
-        {isReady ? children : null}
+        {children}
         <Account onAccountSetup={() => setIsReady(true)}/>
       </WagmiConfig>
       <div style={{

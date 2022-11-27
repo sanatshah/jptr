@@ -2,6 +2,7 @@ import Module from "../Module";
 import Core from "../../Core";
 import Network from "./Network";
 import Farcaster from "./networks/farcaster/Farcaster";
+import { makeObservable, observable } from "mobx";
 
 
 /**
@@ -21,10 +22,13 @@ export enum NetworkTypes {
 
 export default class Social extends Module {
   public selectedNetwork: NetworkTypes;
-  public network: Farcaster;
+  public network: Farcaster | undefined = undefined;
 
   constructor(core : Core<{}>, private config : Config, private dependencyInjection: DependencyInjection) {
     super(core);
+    makeObservable(this, {
+      network: observable
+    })
   }
 
   async start(){
@@ -39,6 +43,8 @@ export default class Social extends Module {
     this.network = new Farcaster(this.core.modules.web3)
   }
 
-
+  async restart(): Promise<void> {
+    this.network = undefined    
+  }
 
 }
