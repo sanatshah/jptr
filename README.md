@@ -18,12 +18,13 @@ files.[ ].eth
 photos.[ ].eth
 music.[ ].eth
 videos.[ ].eth
-
 posts.[ ].eth
+savingaccount.[].eth
 
 
 jptr.sh/files.gunjan.eth
 jptr.sh/home.gunjan.eth
+
 
 
 ----------- API -------------
@@ -68,3 +69,8 @@ _("homenode.jptr.sh").m().app.farcaster.post("0x78103042d0350b").comment()
 _("homenode.jptr.sh").m().app.farcaster.fetch({})
 _("homenode.jptr.sh").m().app.farcaster.browse({})
 _("homenode.jptr.sh").m().app.farcaster.join({})
+
+
+------ blocktales.io -----
+
+blocktales.io/a/0x34abc3ef3fa2324

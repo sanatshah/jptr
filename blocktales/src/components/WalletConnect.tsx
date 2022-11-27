@@ -8,7 +8,6 @@ import {
 import { Web3Button, Web3Modal } from "@web3modal/react";
 import { chain, configureChains, createClient, WagmiConfig, useProvider, useAccount, useConnect, useClient, useSigner, useSignMessage } from "wagmi";
 
-import { NetworkTypes } from '@homenode/jscore/src/modules/social/Social';
 import { _ } from "@homenode/jscore/dist/Core"
 
 const projectID = '53f57bac7dd366a79f4083f23b2b773b' 
@@ -31,17 +30,32 @@ interface WalletConnectProps {
   children: React.ReactNode
 }
 
-export const Account = () => {
-  const { address, isConnected } = useAccount()
+export const Account = ({
+  onAccountSetup
+}: {
+  onAccountSetup: () => void
+}) => {
+  const { address } = useAccount()
   const { data: signer, isSuccess } = useSigner()
   const provider = useProvider()
 
+
   React.useEffect(() => {
-      if ( isConnected && isSuccess && address && provider && signer) {
-        _.m().modules.web3?.setUser(address, signer, provider)
-        _.m().modules.social?.setup(NetworkTypes.FARCASTER)
-    }
-  }, [ address, signer, provider, isConnected, isSuccess ])
+      if (_.m().modules.web3?.isConnected) {
+        return 
+      }
+
+      const connect = async () => {
+        if ( isSuccess && address && provider && signer) {
+          await _.m().modules.web3?.setUser(address, signer, provider)
+          await _.m().modules.social?.setup()
+          onAccountSetup()
+        }
+      }
+
+      connect()
+
+  }, [ address, signer, provider, isSuccess ])
 
   if (!address || !_.m().modules.web3?.user) {
     return null
@@ -86,12 +100,13 @@ export const Account = () => {
 }
 
 export const WalletConnect = ({ children }: WalletConnectProps) => {
+  const [ isReady, setIsReady ] = React.useState(false)
 
   return (
     <>
       <WagmiConfig client={wagmiClient}>
-        {children}
-        <Account />
+        {isReady ? children : null}
+        <Account onAccountSetup={() => setIsReady(true)}/>
       </WagmiConfig>
       <div style={{
         position: 'absolute',

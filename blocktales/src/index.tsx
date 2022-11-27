@@ -12,7 +12,6 @@ import Core, { _ } from "@homenode/jscore/dist/Core"
 import { config } from "./config/App.config"
 import { WalletConnect } from './components/WalletConnect';
 
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

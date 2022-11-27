@@ -3,6 +3,7 @@ import Network from "../../Network";
 import { Farcaster as FarcasterJs, MessageBody, MessageBodyType, serializeMessageBody, SignedCast } from "@standard-crypto/farcaster-js";
 import { Signer } from "ethers";
 import { keccak256, toUtf8Bytes } from "ethers/lib/utils";
+import { makeObservable, observable } from "mobx";
 
 
 const signCast = async (
@@ -27,23 +28,28 @@ const signCast = async (
 }
 
 
-export default class Farcaster extends Network {
+export default class Farcaster {
   private farcaster: FarcasterJs;
-  private 
+  public posts: string[] = [] 
 
   constructor(private web3: Web3) {
-    super()
     this.open(web3.provider)
   }
 
   public async open(provider: any): Promise<void> {
     this.farcaster = new FarcasterJs(provider);
+
+    makeObservable(this, {
+      posts: observable
+    })
+
+    this.usersPosts()
   }
 
-	public async post(): Promise<void> {
+	public async post(message: string): Promise<void> {
   
     const user = await this.farcaster.userRegistry.lookupByUsername('llhungrub');
-    console.log("user: ", user)
+
     if (user == null) {
       throw new Error(`no username registered for address ${this.web3.address}`);
     }
@@ -52,7 +58,7 @@ export default class Farcaster extends Network {
 
     const unsignedCast = await this.farcaster.prepareCast({
       fromUsername: user.username,
-      text: 'Hello from Blocktales',
+      text: message,
     });
 
     //const authHeader = await authHeader(wallet);
@@ -83,9 +89,8 @@ export default class Farcaster extends Network {
     for await (const activity of this.farcaster.getAllActivityForUser("llhungrub", {
       includeRecasts: false,
     })) {
-      console.log(activity.body.data.text);
+      this.posts = [ ...this.posts, activity.body.data.text]
     }
-
     return []
   }
 

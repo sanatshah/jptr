@@ -21,7 +21,7 @@ export enum NetworkTypes {
 
 export default class Social extends Module {
   public selectedNetwork: NetworkTypes;
-  public network: Network;
+  public network: Farcaster;
 
   constructor(core : Core<{}>, private config : Config, private dependencyInjection: DependencyInjection) {
     super(core);
@@ -31,7 +31,7 @@ export default class Social extends Module {
     // Load anything from storage 
   }
 
-  public async setup(network: NetworkTypes){
+  public async setup(network?: NetworkTypes){
     this.selectedNetwork = NetworkTypes.FARCASTER
     if (!this.core.modules.web3) {
       throw new Error("Missing Module!")
