@@ -11,67 +11,9 @@ const sampleArticleData = [
     "description": "Description",
     "link": "/txn"
   },
-  {
-    "title": "Title",
-    "description": "Description",
-    "link": "/txn"
-  },
-  {
-    "title": "Title",
-    "description": "Description",
-    "link": "/txn"
-  },
-  {
-    "title": "Title",
-    "description": "Description",
-    "link": "/txn"
-  },
-  {
-    "title": "Title",
-    "description": "Description",
-    "link": "/txn"
-  },
-  {
-    "title": "Title",
-    "description": "Description",
-    "link": "/txn"
-  },
-  {
-    "title": "Title",
-    "description": "Description",
-    "link": "/txn"
-  },
-  {
-    "title": "Title",
-    "description": "Description",
-    "link": "/txn"
-  },
-  {
-    "title": "Title",
-    "description": "Description",
-    "link": "/txn"
-  },
-  {
-    "title": "Title",
-    "description": "Description",
-    "link": "/txn"
-  },
-  {
-    "title": "Title",
-    "description": "Description",
-    "link": "/txn"
-  },
-  {
-    "title": "Title",
-    "description": "Description",
-    "link": "/txn"
-  }
 ]
 
-
-
 export const ArticleList = () => {
-
   return (
     <div>
       {sampleArticleData.map((article, idx) => {

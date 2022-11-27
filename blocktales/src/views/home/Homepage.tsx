@@ -16,6 +16,7 @@ import {
   createTheme,
   themes
 } from '@merc/react-timeline';
+import { DelayRender } from '../../components/DelayRender';
 
 const customTheme = createTheme(themes.default, {
   card: {
@@ -49,7 +50,7 @@ export const Homepage = observer(() => {
       {isSocialConnected && <Search onPostClick={async () => _.m().modules.social?.network?.post("Hello from the BlockTales dApp!")}/>}
       <div style={{ width: "1000px", height: "80vh", backgroundColor: '#b6b6b6'}} >
           <Tabs css={{ width: "100%", }}variant='soft-rounded' >
-            <div style={{display: 'flex', minHeight:'80px', justifyContent: 'space-between', width: '100%', position: "sticky", top: "-21px", backgroundColor: "rgb(255 255 255 / 18%)", padding: "20px"}}>
+            <div style={{display: 'flex', minHeight:'80px', justifyContent: 'space-between', width: '100%', position: "sticky", top: "-21px", backgroundColor: "rgb(255 255 255 / 16%)", padding: "20px"}}>
             {isSocialConnected && (<TabList>
                 <Tab>History</Tab>
                 <Tab>New</Tab>
@@ -65,7 +66,7 @@ export const Homepage = observer(() => {
                   alignItems: 'center',
                   marginTop: "100px"
                 }}>
-                  <p style={{ color: "white"}}>writr requires a farcaster account</p>
+                  <p style={{ color: "white"}}>blockbook requires a farcaster account</p>
                 </div>
               )}
               {isSocialConnected && (<TabPanels style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
@@ -81,12 +82,31 @@ export const Homepage = observer(() => {
                 </Timeline>
               </TabPanel>
                 <TabPanel>
-                  <ArticleList />
+                    <div style={{
+                      display:"flex",
+                      width: "100%",
+                      height: "100%",
+                      justifyContent: "center",
+                      alignItems: 'center',
+                      marginTop: "100px"
+                    }}>
+                      <p style={{ color: "white"}}>new coming soon</p>
+                    </div>
                 </TabPanel>
                 <TabPanel>
-                  <ArticleList />
+                    <div style={{
+                      display:"flex",
+                      width: "100%",
+                      height: "100%",
+                      justifyContent: "center",
+                      alignItems: 'center',
+                      marginTop: "100px"
+                    }}>
+                      <p style={{ color: "white"}}>top coming soon</p>
+                    </div>
                 </TabPanel>
             </TabPanels>)}
+
           </Tabs>
 
       </div>

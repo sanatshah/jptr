@@ -4,6 +4,8 @@ import { Button, Input } from '@chakra-ui/react';
 import { _ } from '@homenode/jscore/dist'
 import { observer } from 'mobx-react-lite';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
+import { DelayRender } from './DelayRender';
 
 interface SearchProps {
   onPostClick: () => Promise<void>
@@ -19,16 +21,18 @@ export const Search = observer(({ onPostClick }: SearchProps) => {
       justifyContent: 'space-between',
       marginBottom: "16px"
     }}>
-        <Input style={{ marginRight: "16px"}}variant="outline" placeholder='Lookup address(es)' />
-        {connectedToFarcaster && <Button disabled={isButtonClicked} onClick={async () => {
-          setIsButtonClicked(true)
-          try {
-            await onPostClick()
-          } catch (e) {
-            toast.error("Error sending post")
-          }
-          setIsButtonClicked(false)
-        }}>Post</Button>}
+        <div>
+          {false && <Input style={{ marginRight: "16px"}}variant="outline" placeholder='Lookup address(es)' />}
+        </div>
+        {connectedToFarcaster && (
+          <Link to="/post">
+            <Button disabled={isButtonClicked} onClick={async () => {
+              setIsButtonClicked(true)
+              await onPostClick()
+              setIsButtonClicked(false)
+            }}>Post</Button>
+          </Link>)
+        }
     </div>
 
   )

@@ -2,7 +2,7 @@ import React from 'react';
 import { createBrowserRouter, } from "react-router-dom";
 
 import Home from '../views/home/Home';
-import Article from '../views/post/Article';
+import { Post } from '../views/post/Post';
 
 export const router = createBrowserRouter([
   {
@@ -10,11 +10,7 @@ export const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: "/transaction",
-    element: <Article />,
-  },
-  {
-    path: "/address",
-    element: <Article />,
+    path: "/post",
+    element: <Post />,
   },
 ]);

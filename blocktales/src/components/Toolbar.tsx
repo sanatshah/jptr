@@ -7,7 +7,8 @@ export const Toolbar = () => {
       display: "flex",
       width: "100vw",
       height: "100px",
-      alignItems:'center'
+      alignItems:'center',
+      backgroundColor: "white"
     }}>
       <div style={{
         display: 'flex',

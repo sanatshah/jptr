@@ -43,9 +43,7 @@ export const GradientBackground = () => {
 }
 
 function Home() {
-
   return (
-
       <div className="App" style={{
         position: 'relative',
         width: '100vw',
