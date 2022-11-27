@@ -9,7 +9,7 @@ export default abstract class Network {
 	public async react(){}
 	public async repost(){}
 
-  public async usersPosts(){
+  	public async usersPosts(){
 
     return []
   }

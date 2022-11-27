@@ -4,7 +4,6 @@ import React from 'react';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite'
 
-import { ArticleList } from './PostList';
 import { Search } from './../../components/Search';
 
 import { _ } from "@homenode/jscore/dist"
@@ -17,6 +16,7 @@ import {
   themes
 } from '@merc/react-timeline';
 import { BlockEvent } from '../../components/BlockEvent';
+import { _renderMatches } from 'react-router/dist/lib/hooks';
 
 const customTheme = createTheme(themes.default, {
   card: {
@@ -38,7 +38,8 @@ export const Homepage = observer(() => {
   const isSocialConnected = !!_.m().modules.social?.network?.hasUser()
   const isSocialLoading = !!_.m().modules.social?.network?.isLoading
   const isWeb3Connected = _.m().modules.web3?.isConnected
-  const posts = _.m().modules.social?.network?.casts ?? []
+  const historicalList = _.m().apps.blockbook?.historicalList ?? []
+
   return (
     <div style={{
       display: 'grid',
@@ -75,9 +76,14 @@ export const Homepage = observer(() => {
                 <TabPanel style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
                   <Timeline theme={customTheme} opts={{layout: "inline-evts"}} >
                   <Events>
-                    {posts?.map((value, i) => {
+                    {historicalList?.map((value, i) => {
+                      const page = _.m().apps.blockbook?.getPage(value)
+                      if (!page) {
+                        return 
+                      }
+                      
                       return (
-                        <BlockEvent key={i} date={formatDistance(subDays(new Date(), i), new Date())} text={JSON.stringify((value as any).body.data.text)} />
+                        <BlockEvent key={i} date={formatDistance(subDays(new Date(), i), new Date())} text={JSON.stringify(page.text)} />
                       )
                     })}
                   </Events>

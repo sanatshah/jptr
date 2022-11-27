@@ -78,6 +78,27 @@ export default class Farcaster {
     });
 	}
 
+	public async postMany(message: string[]): Promise<void> {
+
+    /*
+    if (this.user == undefined) {
+      throw new Error(`no username registered for address ${this.web3.address}`);
+    }
+
+    const unsignedCast = await this.farcaster.prepareCast({
+      fromUsername: this.user.username,
+      text: message,
+    });
+
+    const auth = await authHeader(this.web3.address, this.web3.signer.signMessage.bind(this.web3.signer));
+    const signedCast = await signCast(unsignedCast, this.web3.signer)
+
+    return await this.axiosInstance.post("/indexer/activity", signedCast, {
+      headers: { authorization: auth },
+      validateStatus: (status: number) => true,
+    });*/
+	}
+
   public async reply(): Promise<void> {
       
   }
@@ -99,12 +120,10 @@ export default class Farcaster {
     return []
   }
 
-  public async search(): Promise<never[]> {
+  public async search(): Promise<any[]> {
     const response = await fetch("https://searchcaster.xyz/api/search?text=test") 
     const data = await response.json()
-    this.casts = data.casts
-
-    return []
+    return data.casts 
   }
 
 }
