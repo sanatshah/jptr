@@ -81,13 +81,11 @@ export default class BlockBook extends App {
 
   public async publish(page: Page){
     const count = page.sections?.length ?? 0
-    console.log("page: ", page)
     if (!count) {
       return 
     }
 
     const casts = page.sections?.map((section, i) => {
-      console.log("got section: ", section.data)
       switch (section.type) {
         case SectionTypes.TXN:
           return `Looking at transaction : ${(section.data as any).address} [${i+1}/${count}]`
@@ -103,7 +101,7 @@ export default class BlockBook extends App {
     })
 
     const prependBlockbookTag = (text) => {
-      return `@blockbook ${text}`
+      return `@blocbook ${text}`
     }
 
     if (casts) {

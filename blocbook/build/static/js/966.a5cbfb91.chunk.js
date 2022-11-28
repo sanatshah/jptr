@@ -1,0 +1,1 @@
+(self.webpackChunkblocktales=self.webpackChunkblocktales||[]).push([[966],{11966:function(){}}]);
