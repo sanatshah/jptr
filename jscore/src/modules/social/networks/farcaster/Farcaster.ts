@@ -48,8 +48,8 @@ export default class Farcaster {
   }
 
   public async getUser() {
-    //const user = await this.farcaster.userRegistry.lookupByAddress(this.web3.address);
-    const user = await this.farcaster.userRegistry.lookupByUsername("llhungrub");
+    const user = await this.farcaster.userRegistry.lookupByAddress(this.web3.address);
+    //const user = await this.farcaster.userRegistry.lookupByUsername("llhungrub");
 
     if (user == null) {
       throw new Error(`no username registered for address ${this.web3.address}`);
@@ -113,9 +113,8 @@ export default class Farcaster {
   }
 
   public async search(textSearch: string): Promise<any[]> {
-    const response = await fetch(`https://searchcaster.xyz/api/search?text=${textSearch}`) 
-    const data = await response.json()
-    return data.casts 
+    const response = await this.axiosInstance.get(`https://searchcaster.xyz/api/search?text=${textSearch}`) 
+    return response.data.casts 
   }
 
 }

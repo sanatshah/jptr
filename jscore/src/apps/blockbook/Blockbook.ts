@@ -112,7 +112,8 @@ export default class BlockBook extends App {
 
 
   private async search(){
-    const casts = await this.social?.network?.search('@blockbook')
+    const casts = await this.social?.network?.search('@blocbook')
+    console.log("casts: ", casts)
 
     const _historicalList: string[] = [] 
 
@@ -121,6 +122,8 @@ export default class BlockBook extends App {
         id: cast.merkleRoot,
         //text: cast.data ? cast.data.text : ''
       }
+
+      console.log("cast: ", cast)
       _historicalList.push(cast.merkleRoot)
     })
 
