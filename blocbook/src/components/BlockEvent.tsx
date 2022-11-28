@@ -36,15 +36,15 @@ export const BlockEvent = ({ date, text, marker, card, className, page }: BlockE
         card={card}
       >
         <div style={{
-          minHeight: "100px"
+          minHeight: "100px",
+          width: "100%"
         }}>
           <p style={{ color: "wheat"}}>Txn: {"0xcb271a9f0aac23988d61e1926f5c7bd8729fc74158efc2b18da41ba1309bf9ad".substring(0,40)}...</p>
-          <p >To: 0xaba2636d95a6d5288eae5d41bb95f5daf00bb8aa</p>
-          <p>From: 0xc0275b8a47c7c135da234ed9542d8ae3900829e0</p>
+          <div style={{ width: "100%", height: "1px", marginTop: "8px", marginBottom: "8px", backgroundColor: "wheat" }}/>
           <div style={{
             marginTop: '8px'
           }}>
-            <p>Content here</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore </p>
           </div>
         </div>
       </Event>

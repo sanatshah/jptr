@@ -59,8 +59,8 @@ export const Post = (props) => {
                         flexDirection: 'column'
                       }}                  
                     >
-                      <p>Authored by : @llhungrub</p>
-                      <p>Likes: {page.socialActivity?.likes} - Reposts: {page.socialActivity?.reposts} - Comments: {page.socialActivity?.comments}</p>
+                      <p>Published by : @llhungrub</p>
+                      <p>Likes: {page.socialActivity?.likes} - Comments: {page.socialActivity?.comments}</p>
                     </div>
                     
                   </div>

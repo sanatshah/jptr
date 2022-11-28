@@ -36,8 +36,6 @@ const customTheme = createTheme(themes.default, {
 
 export const Homepage = observer(() => {
 
-  const navigate = useNavigate()
-
   const isSocialConnected = !!_.m().modules.social?.network?.hasUser()
   const isSocialLoading = !!_.m().modules.social?.network?.isLoading
   const isWeb3Connected = _.m().modules.web3?.isConnected
@@ -76,7 +74,7 @@ export const Homepage = observer(() => {
                 </div>
               )}
               {isSocialConnected && (<TabPanels style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
-                <TabPanel style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
+                <TabPanel style={{backgroundColor: '#b6b6b6', overflowY: 'auto', display: "flex", justifyContent: "center"}}>
                   {!historicalList.length ? (
                     <div style={{
                       display:"flex",
