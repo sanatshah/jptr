@@ -1,6 +1,6 @@
 {
   "private": true,
-  "workspaces": ["*"],
+  "workspaces": ["**"],
   "version": "1.0.0",
   "description": "web3 browser",
   "main": "index.js",
