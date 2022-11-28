@@ -1,7 +1,7 @@
 import React from 'react';
 import { Event } from '@merc/react-timeline';
 import { Link } from 'react-router-dom';
-import { Page } from '@homenode/jscore/dist/apps/blockbook/Blockbook';
+import { Page, SectionTypes } from '@homenode/jscore/dist/apps/blockbook/Blockbook';
 
 export const joinClassNames = (classNames) => {
   return classNames
@@ -44,7 +44,28 @@ export const BlockEvent = ({ date, text, marker, card, className, page }: BlockE
           <div style={{
             marginTop: '8px'
           }}>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore </p>
+            {page.sections?.slice(0,3).map((section) => {
+              switch (section.type) {
+                case SectionTypes.TEXT:
+                  return (
+                    <p>{(section.data as any).text}</p>
+                  )
+
+                case SectionTypes.ADDRESS:
+                  return (
+                    <p>ADDR: </p>
+                  )
+
+                case SectionTypes.TXN:
+                  return (
+                    <p>TXN: </p>
+                  )
+                
+                default:
+                  return <></>
+
+              }
+            })}
           </div>
         </div>
       </Event>

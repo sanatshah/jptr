@@ -4,6 +4,7 @@ import Core from "../../Core";
 import Social from "../../modules/social/Social";
 import Web3 from "../../modules/web3/Web3";
 import App from "../App";
+import { appendCastCounter, BLOCBOOK_TAG, createCastADDR, createCastTXN, createSectionData, getSectionType, prependBlockbookTag, unpendBlockbookTag } from "./utils";
 
 interface Config {
 
@@ -21,18 +22,19 @@ export enum SectionTypes {
   GIF
 }
 
-type Txn  ={
+export type Txn  ={
   address: string
 }
 
-type Address = {
+export type Address = {
   address: string
 }
-type Text = {
+
+export type Text = {
   text: string
 }
 
-type Gif  ={
+export type Gif  ={
   url: string
 }
 
@@ -95,21 +97,18 @@ export default class BlockBook extends App {
     const casts = page.sections?.map((section, i) => {
       switch (section.type) {
         case SectionTypes.TXN:
-          return `Looking at transaction : ${(section.data as any).address} [${i+1}/${count}]`
+          return appendCastCounter(createCastTXN((section.data as any).address), count, i+1) 
 
         case SectionTypes.ADDRESS:
-          return `Looking at address : ${(section.data as any).address} [${i+1}/${count}]`
+          return appendCastCounter(createCastADDR((section.data as any).address), count, i+1) 
 
         case SectionTypes.TEXT:
-          return `${(section.data as any).text} [${i+1}/${count}]`
+          return appendCastCounter((section.data as any).text, count, i+1) 
       }
 
       return ''
-    })
+    }).filter(casts => !casts)
 
-    const prependBlockbookTag = (text) => {
-      return `@blocbook ${text}`
-    }
 
     if (casts) {
       casts[0] = prependBlockbookTag(casts[0])
@@ -120,7 +119,6 @@ export default class BlockBook extends App {
 
   private async search(){
     const casts = await this.social?.network?.search('@blocbook')
-    console.log("casts: ", casts)
 
     const _historicalList: string[] = [] 
 
@@ -134,12 +132,11 @@ export default class BlockBook extends App {
         },
         sections: [
           {
-            type: SectionTypes.TEXT,
-            data: cast.body.data.text,
+            type: getSectionType(cast.body.data.text),
+            data: createSectionData(cast.body.data.text),
             id: cast.merkleRoot
           }
         ]
-        //text: cast.data ? cast.data.text : ''
       }
 
       _historicalList.push(cast.merkleRoot)

@@ -19,7 +19,7 @@ export const Toolbar = () => {
         marginLeft: "100px",
         marginTop: '33px'
       }}>
-        <h1 style={{fontSize: "28px", fontWeight: '800', marginTop: "-5px", marginLeft: "10px"}}>blocbook</h1>
+        <h1 style={{fontSize: "28px", fontWeight: '800', marginTop: "-5px", marginLeft: "10px"}}>bcbk</h1>
       </div>
     </div>
   )
