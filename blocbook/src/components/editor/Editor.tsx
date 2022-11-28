@@ -1,10 +1,8 @@
-import React, { useCallback, useRef } from 'react';
-import EditorJS, { OutputBlockData, OutputData } from '@editorjs/editorjs';
+import React, { useCallback } from 'react';
+import EditorJS, { OutputData } from '@editorjs/editorjs';
 import { Txn } from './plugins/Txn';
 import { Address } from './plugins/Address';
 import { Gif } from './plugins/Gif';
-import { Commentary } from './plugins/Commentary';
-import { Blocks } from '@editorjs/editorjs/types/api';
 import { Section } from '@homenode/jscore/dist/apps/blockbook/Blockbook';
 
 interface EditorProps {
@@ -20,7 +18,7 @@ export const Editor = ({ onNewEditorData, disabled = false, blocks =[] }: Editor
     return {
       type: 'paragraph',
       data: {
-        text: block.data
+        text: (block.data as any).text
       }
     }
 
@@ -41,7 +39,6 @@ export const Editor = ({ onNewEditorData, disabled = false, blocks =[] }: Editor
         },
         onChange: async (api) => {
           const savedData = await api.saver.save() 
-          console.log("svaedData: ", savedData)
           if (onNewEditorData) {
             onNewEditorData(savedData)
           }

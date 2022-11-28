@@ -1,18 +1,13 @@
-import { CAST_CHARACTER_LIMIT } from "@standard-crypto/farcaster-js";
 import { makeObservable, observable } from "mobx";
 import Core from "../../Core";
 import Social from "../../modules/social/Social";
 import Web3 from "../../modules/web3/Web3";
 import App from "../App";
-import { appendCastCounter, BLOCBOOK_TAG, createCastADDR, createCastTXN, createSectionData, getSectionType, prependBlockbookTag, unpendBlockbookTag } from "./utils";
+import { BlocbookEnv, getFarcasterDataConverter } from "./converters/converter";
+
 
 interface Config {
-
-}
-
-interface DependencyInjection {
-
-
+  blocbookEnv: BlocbookEnv
 }
 
 export enum SectionTypes {
@@ -62,12 +57,14 @@ export default class BlockBook extends App {
   private web3: Web3 | undefined;
   private social: Social | undefined;
 
+  private converter: any;
+
   public pages: { [key: string]: Page } = {};
   public historicalList: string[] = []
   public newList: string[] = []
   public topList: string[] = []
 
-  constructor(core : Core<{}>, private config : Config, private dependencyInjection: DependencyInjection) {
+  constructor(core : Core<{}>, private config : Config) {
     super(core)
     makeObservable(this, {
       pages: observable,
@@ -75,6 +72,8 @@ export default class BlockBook extends App {
       newList: observable,
       topList: observable,
     })
+
+    this.converter = getFarcasterDataConverter()
   }
 
   protected async start(){
@@ -97,13 +96,13 @@ export default class BlockBook extends App {
     const casts = page.sections?.map((section, i) => {
       switch (section.type) {
         case SectionTypes.TXN:
-          return appendCastCounter(createCastTXN((section.data as any).address), count, i+1) 
+          return this.converter.appendCastCounter(this.converter.createCastTXN((section.data as any).address), count, i+1) 
 
         case SectionTypes.ADDRESS:
-          return appendCastCounter(createCastADDR((section.data as any).address), count, i+1) 
+          return this.converter.appendCastCounter(this.converter.createCastADDR((section.data as any).address), count, i+1) 
 
         case SectionTypes.TEXT:
-          return appendCastCounter((section.data as any).text, count, i+1) 
+          return this.converter.appendCastCounter((section.data as any).text, count, i+1) 
       }
 
       return ''
@@ -111,7 +110,7 @@ export default class BlockBook extends App {
 
 
     if (casts) {
-      casts[0] = prependBlockbookTag(casts[0])
+      casts[0] = this.converter.prependBlockbookTag(casts[0])
       await this.social?.network?.postMany(casts)
     }
   }
@@ -123,6 +122,12 @@ export default class BlockBook extends App {
     const _historicalList: string[] = [] 
 
     casts?.forEach((cast) => {
+      const sectionData = this.converter.createSectionData(cast.body.data.text)
+
+      if (!sectionData) {
+        return
+      }
+
       this.pages[cast.merkleRoot] = {
         id: cast.merkleRoot,
         socialActivity: {
@@ -132,8 +137,8 @@ export default class BlockBook extends App {
         },
         sections: [
           {
-            type: getSectionType(cast.body.data.text),
-            data: createSectionData(cast.body.data.text),
+            type: this.converter.getSectionType(cast.body.data.text),
+            data: sectionData,
             id: cast.merkleRoot
           }
         ]

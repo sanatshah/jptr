@@ -1,4 +1,4 @@
-import { Address, Gif, SectionTypes, Txn, Text } from "./Blockbook"
+import { Address, Gif, SectionTypes, Txn, Text } from "../Blockbook"
 
 
 export const BLOCBOOK_TAG = '@blocbook'

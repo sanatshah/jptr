@@ -1,7 +1,8 @@
+import { BlocbookEnv } from "@homenode/jscore/dist/apps/blockbook/converters/converter";
 import { PlatformState } from "@homenode/jscore/dist/constants/Platform";
 
 export const config = {
-	name: "blocktales",
+	name: "blocbook",
   child: false,
   version: "1.0.0",
   env: "production",
@@ -17,7 +18,8 @@ export const config = {
   apps: [
     {
       name: 'blockbook',
-      dependencies: [ "web3", "social" ]
+      dependencies: [ "web3", "social" ],
+      blockbookEnv: BlocbookEnv.PRE_ALPHA
     }
   ]
 }
