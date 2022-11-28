@@ -23,6 +23,7 @@ export default class Farcaster {
 
     this.axiosInstance = axios.create({
       baseURL: `https://${Farcaster.HOST}`,
+      withCredentials: false,
       validateStatus: (status) => status >= 200 && status < 300,
     });
   }
@@ -48,8 +49,8 @@ export default class Farcaster {
   }
 
   public async getUser() {
-    const user = await this.farcaster.userRegistry.lookupByAddress(this.web3.address);
-    //const user = await this.farcaster.userRegistry.lookupByUsername("llhungrub");
+    //const user = await this.farcaster.userRegistry.lookupByAddress(this.web3.address);
+    const user = await this.farcaster.userRegistry.lookupByUsername("llhungrub");
 
     if (user == null) {
       throw new Error(`no username registered for address ${this.web3.address}`);

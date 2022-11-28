@@ -42,11 +42,18 @@ export interface Section {
   data: Txn | Address | Text | Gif
 }
 
+export interface SocialActivity {
+  likes?: number;
+  reposts?: number;
+  comments?: number;
+}
+
 export interface Page {
   id?: string,
   transactions?: string[],
   addresses?: string[],
   sections?: Section[]
+  socialActivity?: SocialActivity
 }
 
 export default class BlockBook extends App {
@@ -120,10 +127,21 @@ export default class BlockBook extends App {
     casts?.forEach((cast) => {
       this.pages[cast.merkleRoot] = {
         id: cast.merkleRoot,
+        socialActivity: {
+          likes: cast.meta.reactions.count,
+          reposts: cast.meta.recasts.count,
+          comments: cast.meta.numReplyChildren
+        },
+        sections: [
+          {
+            type: SectionTypes.TEXT,
+            data: cast.body.data.text,
+            id: cast.merkleRoot
+          }
+        ]
         //text: cast.data ? cast.data.text : ''
       }
 
-      console.log("cast: ", cast)
       _historicalList.push(cast.merkleRoot)
     })
 

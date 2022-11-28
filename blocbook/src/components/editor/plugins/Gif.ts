@@ -20,6 +20,10 @@ export class Gif {
     };
   }
 
+  static get isReadOnlySupported() {
+    return true
+  }
+
   private fetchGifs = (offset: number) => {
     // use whatever end point you want,
     // but be sure to pass offset to paginate correctly

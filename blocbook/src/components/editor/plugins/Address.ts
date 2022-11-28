@@ -7,6 +7,10 @@ export class Address {
     };
   }
 
+  static get isReadOnlySupported() {
+    return true
+  }
+
   render(){
     const wrapper = document.createElement('div');
     wrapper.style.display = 'flex'

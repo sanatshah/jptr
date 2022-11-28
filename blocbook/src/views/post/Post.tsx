@@ -1,13 +1,26 @@
 import { Button } from '@chakra-ui/react';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { DelayRender } from '../../components/DelayRender';
 import { HomeContainer } from '../../components/HomeContainer';
 import { Toolbar } from '../../components/Toolbar';
 import { GradientBackground } from '../../components/GradientBackground';
 import { Editor } from '../../components/editor/Editor';
+import { _ } from "@homenode/jscore/dist"
+import { Page } from '@homenode/jscore/dist/apps/blockbook/Blockbook';
 
-export const Post = () => {
+interface PostProps{
+  id: string
+}
+
+export const Post = (props) => {
+  const { postId } = useParams();
+  let page: Page | undefined;
+  if (postId) {
+    page = _.m().apps.blockbook?.getPage(postId)
+    console.log("page: ", page)
+  }
+
   return (
       <div className="App" style={{
         position: 'relative',
@@ -26,23 +39,33 @@ export const Post = () => {
               width: '100%',
               position: 'relative'
             }}>
-              <div>
-              <DelayRender>
-                <div style={{
+              <div
+                style={{
                   position: 'absolute',
-                  top: "-80px",
-                  right: "-40px"
-                }}>
-                  {/*<Button variant={'ghost'}>Save</Button>*/}
-                </div>
-                  <Link to="/">
-                <Button colorScheme={'whiteAlpha'} variant={'ghost'} style={{ marginRight: "16px"}}>Cancel</Button>
-                  </Link>
-                </DelayRender>
+                  top: "-66px",
+                  left: "-20px"
+                }}
+              >
+                <Link to="/">
+                  <Button>Back</Button>
+                </Link>
               </div>
               <DelayRender>
-              <Button colorScheme={'gray'} variant={'solid'}>Publish</Button>
-                </DelayRender>
+                {page && (
+                  <div>
+                    <div 
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column'
+                      }}                  
+                    >
+                      <p>Authored by : @llhungrub</p>
+                      <p>Likes: {page.socialActivity?.likes} - Reposts: {page.socialActivity?.reposts} - Comments: {page.socialActivity?.comments}</p>
+                    </div>
+                    
+                  </div>
+                )}
+              </DelayRender>
             </div>
           )}
         >
@@ -60,6 +83,7 @@ export const Post = () => {
               }}
             >
               <DelayRender>
+                {page && <Editor disabled blocks={page.sections as any}/>}
               </DelayRender>
             </div>
           </div>

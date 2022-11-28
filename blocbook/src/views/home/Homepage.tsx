@@ -16,7 +16,7 @@ import {
   themes
 } from '@merc/react-timeline';
 import { BlockEvent } from '../../components/BlockEvent';
-import { _renderMatches } from 'react-router/dist/lib/hooks';
+import { useNavigate } from 'react-router';
 
 const customTheme = createTheme(themes.default, {
   card: {
@@ -35,6 +35,9 @@ const customTheme = createTheme(themes.default, {
 });
 
 export const Homepage = observer(() => {
+
+  const navigate = useNavigate()
+
   const isSocialConnected = !!_.m().modules.social?.network?.hasUser()
   const isSocialLoading = !!_.m().modules.social?.network?.isLoading
   const isWeb3Connected = _.m().modules.web3?.isConnected
@@ -95,7 +98,7 @@ export const Homepage = observer(() => {
                         }
                         
                         return (
-                          <BlockEvent key={i} date={formatDistance(subDays(new Date(), i), new Date())} text={"hi"} />
+                          <BlockEvent key={i} page={page} date={formatDistance(subDays(new Date(), i), new Date())} text={"hi"} />
                         )
                       })}
                     </Events>
