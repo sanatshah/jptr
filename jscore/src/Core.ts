@@ -30,6 +30,9 @@ let mainCore: Core;
 let _ = {
     m<T=any,L=any>(): Core<T,L> {
         return mainCore
+    },
+    h : () => {
+
     }
 };
 
@@ -47,7 +50,7 @@ export default class Core<T=any,L=any> {
     private delayedInit : any = [];
     public started: boolean = false;
 
-    constructor(private config : AppConfig) {
+    constructor(private config : any) {
       mainCore = this;
       makeAutoObservable(this);
 
@@ -314,6 +317,11 @@ export default class Core<T=any,L=any> {
       this.startStores();
     }
 
+    private _rpcMethods = {}
+    public get rpcMethods() {
+      return this._rpcMethods
+    }
+
 }
 
 /**
@@ -339,6 +347,9 @@ const jscore = {
         })
     }
   },
+  rpc: function(name: string) {
+
+  }
 }
 
 // Probably could delete this, forget what it 

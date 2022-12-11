@@ -25,13 +25,10 @@
     "preserveConstEnums": true,
     "outDir": "./dist",
     "sourceMap": true,
-    "experimentalDecorators": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noImplicitReturns": true,
-    "skipLibCheck": true,
     "moduleResolution":"node",
-    "allowSyntheticDefaultImports" : true,
     "strictNullChecks": true
   },
   "include": [

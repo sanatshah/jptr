@@ -10,16 +10,20 @@ export const config = {
     appManager: {
       platforms: PlatformState.Web
     },
-    web3: {},
+    web3: {
+      localAuth: true
+    },
     social: {
-      network: 'FARCASTER'
+      network: 'FARCASTER',
+      localAuth: true
     }
   },
   apps: [
     {
       name: 'blockbook',
       dependencies: [ "web3", "social" ],
-      blockbookEnv: BlocbookEnv.PRE_ALPHA
+      blockbookEnv: BlocbookEnv.PRE_ALPHA,
+      allowRPC: false
     }
   ]
 }
