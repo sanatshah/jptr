@@ -1,76 +1,71 @@
+# <ins>homenode</ins>
+
+## Design
+
+
+## Technical Specification
+
 
 ----------- Smart Contracts -----------
 
-jupiter resolver contract - 0x234243 
-  "gunjan.eth" -> 10.49204.23923
+Resolver contract
+Registrar contract
 
-jupiter registrar contract - 0x234243 
-  ".eth"
-
-jupiter spaces contract
+Spaces contract
   public space
   private 
 
 
------------ Intentional Sub Domains -------------
-home.[ ].eth
-files.[ ].eth
-photos.[ ].eth
-music.[ ].eth
-videos.[ ].eth
-posts.[ ].eth
-savingaccount.[].eth
+----------- Spaces -------------
+
+home.[ ].jptr
+files.[ ].jptr
+photos.[ ].jptr
+music.[ ].jptr
+videos.[ ].jptr
+posts.[ ].jptr
+savingaccount.[].jptr
+[].[].jptr
+
+Web3 Public Gateway
+jptr.sh/files.gunjan
+jptr.sh/home.gunjan
 
 
-jptr.sh/files.gunjan.eth
-jptr.sh/home.gunjan.eth
+----------- CORE API -------------
 
 
-
------------ API -------------
-_("homenode.jptr.sh").m().modules.web3(ethers object)
-
-// core
-_("homenode.jptr.sh").m().modules.users.add()
-_("homenode.jptr.sh").m().modules.users.remove()
-_("homenode.jptr.sh").m().modules.users.validate()
-
-_("homenode.jptr.sh").m().modules.notification.fetch()
-_("homenode.jptr.sh").m().modules.notification.ack()
-
-_("homenode.jptr.sh").m().modules.data.getTree()
-_("homenode.jptr.sh").m().modules.data.open("/pictures/mountain.jpg")
-_("homenode.jptr.sh").m().modules.data.add("/pictures", {})
-_("homenode.jptr.sh").m().modules.data.add("/pictures", {})
-
-// spaces - history 
-_("homenode.jptr.sh").m().app.spaces.history.add({})
-
-// spaces - activity
-_("homenode.jptr.sh").m().app.spaces.activity.post.share({})
-_("homenode.jptr.sh").m().app.spaces.activity.post.activity({})
-_("homenode.jptr.sh").m().app.spaces.activity.post("0x78103042d0350b").comment()
-_("homenode.jptr.sh").m().app.spaces.activity.fetch({})
-_("homenode.jptr.sh").m().app.spaces.activity.browse({})
-_("homenode.jptr.sh").m().app.spaces.activity.join({})
-
-// blocktales 
-_("homenode.jptr.sh").m().app.blocktales.post.share({})
-_("homenode.jptr.sh").m().app.blocktales.post.activity({})
-_("homenode.jptr.sh").m().app.blocktales.post("0x78103042d0350b").comment()
-_("homenode.jptr.sh").m().app.blocktales.fetch({})
-_("homenode.jptr.sh").m().app.blocktales.browse({})
-_("homenode.jptr.sh").m().app.blocktales.join({})
-
-// farcaster 
-_("homenode.jptr.sh").m().app.farcaster.post.share({})
-_("homenode.jptr.sh").m().app.farcaster.post.activity({})
-_("homenode.jptr.sh").m().app.farcaster.post("0x78103042d0350b").comment()
-_("homenode.jptr.sh").m().app.farcaster.fetch({})
-_("homenode.jptr.sh").m().app.farcaster.browse({})
-_("homenode.jptr.sh").m().app.farcaster.join({})
+----------- MODULES --------------
 
 
------- blocktales.io -----
+----------------------------- Web3
 
-blocktales.io/a/0x34abc3ef3fa2324
+_.m().modules.users.add()\n
+_.m().modules.users.remove()\n
+_.m().modules.users.validate()\n
+
+--------------------------- Social
+
+_.m().modules.data.getTree()
+_.m().modules.data.open("/pictures/mountain.jpg")
+_.m().modules.data.add("/pictures", {})
+_.m().modules.data.add("/pictures", {})
+
+----------- APPS -------------
+
+// spaces 
+_.m().app.spaces.history.add({})\n
+_.m().app.spaces.activity.post.share({})
+_.m().app.spaces.activity.post.activity({})
+_.m().app.spaces.activity.post("0x78103042d0350b").comment()
+_.m().app.spaces.activity.fetch({})
+_.m().app.spaces.activity.browse({})
+_.m().app.spaces.activity.join({})
+
+// blocbook 
+_.m().app.blocbook.post.share({})
+_.m().app.blocbook.post.activity({})
+_.m().app.blocbook.post("0x78103042d0350b").comment()
+_.m().app.blocbook.fetch({})
+_.m().app.blocbook.browse({})
+_.m().app.blocbook.join({})
