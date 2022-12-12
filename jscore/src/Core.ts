@@ -19,6 +19,7 @@ import AppManager from "./apps/AppManager";
  */
 import ConstantsManager from "./constants/ConstantsManager";
 import { AuthenticationState } from "./constants/Authentication";
+import RPC from "./libs/RPC";
 export let coreConstants: ConstantsManager;
 
 let mainCore: Core;
@@ -31,7 +32,7 @@ let _ = {
     m<T=any,L=any>(): Core<T,L> {
         return mainCore
     },
-    h : () => {
+    c : () => {
 
     }
 };
@@ -45,6 +46,8 @@ export default class Core<T=any,L=any> {
     @observable public modules: ModuleManager = {};
     @observable public apps: AppManager = {};
     @observable public stores: T = {} as T;
+
+    public rpc: any;
     public libs: L = {} as L;
 
     private delayedInit : any = [];
@@ -58,6 +61,7 @@ export default class Core<T=any,L=any> {
       coreConstants = this.constants
       this.addConstantListeners();
 
+      this.rpc = new RPC()
       console.log("# jscore config : ", config);
     }
 
@@ -256,6 +260,10 @@ export default class Core<T=any,L=any> {
      *************************/
 
     private async startApps(){
+      if (!this.config.apps) {
+        return
+      }
+
       this.config.apps.forEach(async (appConfig) => {
         const app = AppConfig[appConfig.name]
 
@@ -264,7 +272,6 @@ export default class Core<T=any,L=any> {
         }
 
         if (appConfig.dependencies && appConfig.dependencies.length > 0) {
-          //this.modules.
           const isReadyModules: Module[] = appConfig.dependencies
             .filter((dependencyName) => this.modules[dependencyName])
             .map((dependencyName) => this.modules[dependencyName]
@@ -347,13 +354,14 @@ const jscore = {
         })
     }
   },
-  rpc: function(name: string) {
+  enableRPC: function() {
+    return function (target: any) {
+        console.log('target 2:', target);
+        target.bar = 3;
+        return target;
+    }
 
   }
 }
-
-// Probably could delete this, forget what it 
-// what it was used for
-globalThis.jscore = jscore;
 
 export { jscore }

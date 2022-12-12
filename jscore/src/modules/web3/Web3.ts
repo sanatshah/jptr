@@ -24,6 +24,7 @@ interface User {
 }
 
 export default class Web3 extends Module {
+  private static instance: Web3;
   private _address: any;
   private _signer: any;
   private _provider: any;
@@ -38,7 +39,18 @@ export default class Web3 extends Module {
       user: observable,
       isConnected: observable
     })
+
+    Web3.instance = this
   }
+
+  public static getInstance(core: Core): Web3 | undefined {
+      if (!Web3.instance) {
+        return
+      }
+
+      return Web3.instance;
+  }
+
 
   get address() {
     return this._address
@@ -56,6 +68,10 @@ export default class Web3 extends Module {
     //TODO:  Load anything from storage 
 
 
+  }
+
+  public setSigner(){
+    console.log("setting signer!!")
   }
 
   public setUser(address, signer, provider){

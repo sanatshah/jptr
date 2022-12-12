@@ -1,9 +1,10 @@
 import Web3 from "../../../web3/Web3";
-import { Farcaster as FarcasterJs, UserRegistry } from "@standard-crypto/farcaster-js";
+import { Farcaster as FarcasterJs } from "@standard-crypto/farcaster-js";
 import { makeObservable, observable } from "mobx";
 
 import { authHeader, signCast } from "./util";
 import axios, { AxiosInstance } from "axios";
+import RPC from "../../../../libs/RPC";
 
 export default class Farcaster {
 
@@ -26,6 +27,8 @@ export default class Farcaster {
       withCredentials: false,
       validateStatus: (status) => status >= 200 && status < 300,
     });
+
+    RPC.enableRPC(this, this.postMany, "app.social.farcaster.postMany")
   }
 
   public async open(provider: any): Promise<void> {

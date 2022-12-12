@@ -1,54 +1,29 @@
-export function getEnv() {
-    try {
-        if (process.env.env) {
-            return process.env.env;
-        }
-        else {
-            return __ENV__;
-        }
-    }
-    catch (e) {
-        return "prod";
-    }
-}
-export function useEnv(local, prod) {
-    try {
-        if (process.env.env) {
-            return process.env.env === "Local" ? local : prod;
-        }
-        else {
-            return __ENV__ === "Local" ? local : prod;
-        }
-    }
-    catch (e) {
-        return prod;
-    }
-}
-export function usePlatform() {
-    try {
-        if (__PLATFORM__) {
-            return __PLATFORM__;
-        }
-    }
-    catch (e) {
-        return "MOBILE";
-    }
-}
-let config = {
-    name: "osi",
-    version: "1.0.0",
+import * as Core from "@homenode/jscore";
+const _ = Core._;
+export const config = {
+    name: "blocbook",
     child: false,
-    env: (() => {
-        try {
-            return process.env.env ? process.env.env : __ENV__;
-        }
-        catch (e) {
-            return "Prod";
-        }
-    })(),
+    version: "1.0.0",
+    env: "production",
     modules: {
-        ...require("./Modules.config").default
-    }
+        appManager: {
+            platforms: "web"
+        },
+        web3: {
+            localAuth: true
+        },
+        social: {
+            network: 'FARCASTER',
+            localAuth: true
+        }
+    },
+    apps: [
+        {
+            name: 'blockbook',
+            dependencies: ["web3", "social"],
+            blockbookEnv: _.m().apps.blockbook.converters.converter.BlocbookEnv.PRE_ALPHA,
+            allowRPC: false
+        }
+    ]
 };
-export default config;
 //# sourceMappingURL=App.config.js.map

@@ -5,6 +5,7 @@
   "description": "Frontend backbone.",
   "main": "dist/index.js",
   "types": "dist/index.js.map",
+  "type:": "module",
   "scripts": {
     "watch": "tsc -w",
     "build": "tsc",

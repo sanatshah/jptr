@@ -1,32 +1,44 @@
-import Core from "@homenode/jscore";
 import express from "express";
 import bodyParser from "body-parser";
-import { JSONRPCServer } from "json-rpc-2.0";
-const server = new JSONRPCServer();
-console.log("Core: ", Core);
-// First parameter is a method name.
-// Second parameter is a method itself.
-// A method takes JSON-RPC params and returns a result.
-// It can also return a promise of the result.
-server.addMethod("echo", ({ text }) => text);
-server.addMethod("log", ({ message }) => console.log(message));
-const app = express();
-app.use(bodyParser.json());
-app.post("/json-rpc", (req, res) => {
-    const jsonRPCRequest = req.body;
-    // server.receive takes a JSON-RPC request and returns a promise of a JSON-RPC response.
-    // It can also receive an array of requests, in which case it may return an array of responses.
-    // Alternatively, you can use server.receiveJSON, which takes JSON string as is (in this case req.body).
-    server.receive(jsonRPCRequest).then((jsonRPCResponse) => {
-        if (jsonRPCResponse) {
-            res.json(jsonRPCResponse);
+import * as Core from "@homenode/jscore";
+const config = {
+    name: "rpc",
+    child: false,
+    version: "1.0.0",
+    env: "production",
+    modules: {
+        web3: {
+            localAuth: false
+        },
+        social: {
+            network: 'FARCASTER',
+            localAuth: false
         }
-        else {
-            // If response is absent, it was a JSON-RPC notification method.
-            // Respond with no content status (204).
-            res.sendStatus(204);
-        }
+    },
+};
+(async () => {
+    new Core.default.default(config);
+    await Core._.m().start();
+    const app = express();
+    app.use(bodyParser.json());
+    app.use((req, res, next) => {
+        console.log("req, : ", req);
+        console.log("res, : ", res);
+        Core._.m().modules.web3.setSigner();
+        next();
     });
-});
-app.listen(80);
+    app.post("/rpc", (req, res) => {
+        const jsonRPCRequest = req.body;
+        const server = Core._.m().rpc.getServer();
+        server.receive(jsonRPCRequest).then((jsonRPCResponse) => {
+            if (jsonRPCResponse) {
+                res.json(jsonRPCResponse);
+            }
+            else {
+                res.sendStatus(204);
+            }
+        });
+    });
+    app.listen(9000);
+})();
 //# sourceMappingURL=main.js.map
