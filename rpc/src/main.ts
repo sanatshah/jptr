@@ -5,7 +5,7 @@ import * as Core from "@homenode/jscore"
 
 const config = {
 	name: "rpc",
-  child: false,
+  rpcType: "SERVER",
   version: "1.0.0",
   env: "production",
   modules: {
@@ -14,7 +14,7 @@ const config = {
     },
     social: {
       network: 'FARCASTER',
-      localAuth: false
+      isRPCServer: true
     }
   },
 };

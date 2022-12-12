@@ -19,7 +19,7 @@ import AppManager from "./apps/AppManager";
  */
 import ConstantsManager from "./constants/ConstantsManager";
 import { AuthenticationState } from "./constants/Authentication";
-import RPC from "./libs/RPC";
+import RPC, { RPCTYPE } from "./libs/RPC";
 export let coreConstants: ConstantsManager;
 
 let mainCore: Core;
@@ -61,7 +61,7 @@ export default class Core<T=any,L=any> {
       coreConstants = this.constants
       this.addConstantListeners();
 
-      this.rpc = new RPC()
+      this.rpc = RPC.getInstance(this, this.config.rpcTYpe)
       console.log("# jscore config : ", config);
     }
 

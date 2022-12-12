@@ -58,6 +58,7 @@ export const Account = observer(({
         if ( isSuccess && address && provider && signer) {
           await _.m().modules.web3?.setUser(address, signer, provider)
           await _.m().modules.social?.setup()
+          await _.m().modules.social?.network?.search("@blocbook")
           onAccountSetup()
         }
       }
@@ -70,13 +71,15 @@ export const Account = observer(({
   }
 
   const web3 = _.m().modules.web3
-  const connectedToFarcaster = !!_.m().modules.social?.network?.hasUser()
+  //const connectedToFarcaster = !!_.m().modules.social?.network?.hasUser()
+  const connectedToFarcaster = true 
 
   if (!connectedToFarcaster) {
     return null
   }
 
-  const network = _.m().modules.social?.network
+  //const network = _.m().modules.social?.network
+  const network = "Farcaster" 
 
   if (web3?.user.profileURL) {
     return <div style={{
@@ -112,7 +115,7 @@ export const Account = observer(({
           textAlign: 'left'
         }}
       >
-        <h1 style={{ fontSize: "20px", color: "white", fontWeight: '700'}}>{network?.user.displayName}</h1>
+        <h1 style={{ fontSize: "20px", color: "white", fontWeight: '700'}}>sunny</h1>
         <Divider />
         <div style={{ marginTop: '4px'}}>
           <p style={{ color: "white"}}> Theme: {backgroundTheme} </p>

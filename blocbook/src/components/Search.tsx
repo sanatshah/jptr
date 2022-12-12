@@ -6,7 +6,8 @@ import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 
 export const Search = observer(() => {
-  const connectedToFarcaster = !!_.m().modules.social?.network?.hasUser()
+  //const connectedToFarcaster = !!_.m().modules.social?.network?.hasUser()
+  const connectedToFarcaster = true 
   return (
     <div style={{
       display: 'flex',

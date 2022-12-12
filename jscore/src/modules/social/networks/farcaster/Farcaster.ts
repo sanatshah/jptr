@@ -19,7 +19,11 @@ export default class Farcaster {
 
   public isLoading: boolean = false; 
 
-  constructor(private web3: Web3) {
+  constructor(
+    private web3: Web3,
+    config: any,
+  ) {
+
     this.open(web3.provider)
 
     this.axiosInstance = axios.create({
@@ -28,7 +32,10 @@ export default class Farcaster {
       validateStatus: (status) => status >= 200 && status < 300,
     });
 
-    RPC.enableRPC(this, this.postMany, "app.social.farcaster.postMany")
+    if (config.isRPCAllowed) {
+      RPC.enableRPC(this, this.postMany, "modules.social.farcaster.postMany")
+      RPC.enableRPC(this, this.search, "modules.social.farcaster.search")
+    }
   }
 
   public async open(provider: any): Promise<void> {

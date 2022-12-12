@@ -111,13 +111,17 @@ export default class BlockBook extends App {
 
     if (casts) {
       casts[0] = this.converter.prependBlockbookTag(casts[0])
+
       await this.social?.network?.postMany(casts)
+
     }
   }
 
 
   private async search(){
+    console.log("searching!!")
     const casts = await this.social?.network?.search('@blocbook')
+    console.log("casts: ", casts)
 
     const _historicalList: string[] = [] 
 

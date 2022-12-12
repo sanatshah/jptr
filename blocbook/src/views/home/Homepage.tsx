@@ -36,9 +36,6 @@ const customTheme = createTheme(themes.default, {
 
 export const Homepage = observer(() => {
 
-  const isSocialConnected = !!_.m().modules.social?.network?.hasUser()
-  const isSocialLoading = !!_.m().modules.social?.network?.isLoading
-  const isWeb3Connected = _.m().modules.web3?.isConnected
   const historicalList = _.m().apps.blockbook?.historicalList ?? []
 
   return (
@@ -51,17 +48,17 @@ export const Homepage = observer(() => {
       marginTop: "40px",
       overflowY: 'scroll'
     }}>
-      {isSocialConnected && <Search />}
+      <Search />
       <div style={{ width: "1000px", height: "80vh", backgroundColor: '#b6b6b6'}} >
           <Tabs css={{ width: "100%", }}variant='soft-rounded' colorScheme={'whiteAlpha'}>
             <div style={{display: 'flex', minHeight:'80px', justifyContent: 'space-between', width: '100%', position: "sticky", top: "-21px", backgroundColor: "rgb(255 255 255 / 16%)", padding: "20px"}}>
-            {isSocialConnected && (<TabList>
+            <TabList>
                 <Tab>History</Tab>
                 <Tab>New</Tab>
                 <Tab>Top</Tab>
-            </TabList>)}
+            </TabList>
             </div>
-              {!isSocialConnected && isWeb3Connected && !isSocialLoading && (
+              
                 <div style={{
                   display:"flex",
                   width: "100%",
@@ -72,8 +69,7 @@ export const Homepage = observer(() => {
                 }}>
                   <p style={{ color: "white"}}>blockbook requires a farcaster account</p>
                 </div>
-              )}
-              {isSocialConnected && (<TabPanels style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
+              <TabPanels style={{backgroundColor: '#b6b6b6', overflowY: 'auto'}}>
                 <TabPanel style={{backgroundColor: '#b6b6b6', overflowY: 'auto', display: "flex", justifyContent: "center"}}>
                   {!historicalList.length ? (
                     <div style={{
@@ -128,7 +124,7 @@ export const Homepage = observer(() => {
                       <p style={{ color: "white"}}>top coming soon</p>
                     </div>
                 </TabPanel>
-            </TabPanels>)}
+            </TabPanels>
 
           </Tabs>
 

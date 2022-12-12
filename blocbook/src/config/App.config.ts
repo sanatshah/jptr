@@ -3,7 +3,7 @@ import { PlatformState } from "@homenode/jscore/dist/constants/Platform";
 
 export const config = {
 	name: "blocbook",
-  child: false,
+  rpcType: "CLIENT",
   version: "1.0.0",
   env: "production",
   modules: {
@@ -15,7 +15,7 @@ export const config = {
     },
     social: {
       network: 'FARCASTER',
-      localAuth: true
+      useRemote: true
     }
   },
   apps: [
@@ -23,7 +23,6 @@ export const config = {
       name: 'blockbook',
       dependencies: [ "web3", "social" ],
       blockbookEnv: BlocbookEnv.PRE_ALPHA,
-      allowRPC: false
     }
   ]
 }
