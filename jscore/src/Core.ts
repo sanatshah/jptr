@@ -52,6 +52,7 @@ export default class Core<T=any,L=any> {
 
     private delayedInit : any = [];
     public started: boolean = false;
+    public isRPCServer : false
 
     constructor(private config : any) {
       mainCore = this;
@@ -61,7 +62,8 @@ export default class Core<T=any,L=any> {
       coreConstants = this.constants
       this.addConstantListeners();
 
-      this.rpc = RPC.getInstance(this, this.config.rpcTYpe)
+      this.rpc = RPC.getInstance(this, this.config.rpcType)
+      this.isRPCServer = config.isRPCServer
       console.log("# jscore config : ", config);
     }
 
@@ -163,7 +165,7 @@ export default class Core<T=any,L=any> {
           //Start the Module, the module name is camelCased
             loadedModules.push((async () => {
               try {
-                await this.modules[moduleName].start()
+                await this.modules[moduleName].start(this.config.isRPCServer)
                 console.log(`# ${moduleName} : started`)
               } catch (e) {
                 errors.push({
@@ -354,14 +356,6 @@ const jscore = {
         })
     }
   },
-  enableRPC: function() {
-    return function (target: any) {
-        console.log('target 2:', target);
-        target.bar = 3;
-        return target;
-    }
-
-  }
 }
 
 export { jscore }

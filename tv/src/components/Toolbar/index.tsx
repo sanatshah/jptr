@@ -6,11 +6,13 @@ import g from './g.png'
 import sunny from './sunny.png'
 import add from './addicon.png'
 
+/*
 import selectionChange from "./selectionChange2.wav"
 import openSound from "./openandclose.wav"
 import closeSound from "./close.wav"
 import hit from "./hit.wav"
-import { Howl } from 'howler'
+*/
+
 import { Setup } from '../../views/Setup'
 
 interface ToolbarItem {
@@ -18,6 +20,7 @@ interface ToolbarItem {
   Component? : ReactNode
 }
 
+/*
 const hoverSound = new Howl({
   src: [ selectionChange ]
 })
@@ -28,7 +31,7 @@ const open = new Howl({
 
 const close = new Howl({
   src: [ hit ]
-})
+})*/
 
 export const PlaceWrapper = ({
   Component,
@@ -69,7 +72,7 @@ export const Toolbar = () => {
           setCurrentSelectedItem(current => {
             return current - 1 < 0 ? items.length -1 : current - 1
           })
-          hoverSound.play()
+          //hoverSound.play()
           break;
         case 'RIGHT':
           setCurrentSelectedItem(current => {
@@ -79,7 +82,7 @@ export const Toolbar = () => {
               return current + 1
             }
           })
-          hoverSound.play()
+          //hoverSound.play()
           break;
         case 'ENTER':
           if (setup) {
@@ -92,11 +95,11 @@ export const Toolbar = () => {
             const newValue = !expanded
 
             if (newValue) {
-              open.play()
+              //open.play()
               setTimeout(() => setShowExpandedToolbarContent(true), 1210)
               setShowToolbarContent(false)
             } else {
-              close.play()
+              //close.play()
               setTimeout(() => setShowToolbarContent(true), 115)
               setShowExpandedToolbarContent(false)
             }

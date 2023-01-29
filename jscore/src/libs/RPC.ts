@@ -1,6 +1,6 @@
 import Core from ".."
 import { JSONRPCServer, JSONRPCClient } from "json-rpc-2.0";
-import axios, { AxiosInstance } from "axios";
+import axios from 'axios';
 
 export enum RPCTYPE {
   SERVER = "SERVER",
@@ -13,23 +13,31 @@ interface Resolver<T,R>  {
   method: (args: T) =>  R
 }
 
+
+const procedureFunctionMap: Map<string, string[]> = new Map<string, string[]>()
 export default class RPC {
-  private axiosInstance: AxiosInstance;
+  private axiosInstance: any;
   private static instance: RPC;
   private core: Core;
 
   private server: JSONRPCServer;
   private client: JSONRPCClient;
-  private resolvers: {[key: string]: Resolver<any, any>}
 
-  public static getInstance(core: Core, rpcType: RPCTYPE): RPC {
+  public static isRPCServer: boolean = false
+
+  public static getInstance(core?: Core, rpcType?: RPCTYPE): RPC {
     if (!RPC.instance) {
+      if (!core && !rpcType) {
+        throw new Error("RPC instance needs core and rpc type")
+      }
+
       RPC.instance = new RPC();
-      RPC.instance.core = core;
+      RPC.instance.core = core!;
 
       switch (rpcType){
 
         case RPCTYPE.SERVER:
+          RPC.isRPCServer = true
           RPC.instance.createServer()
           break;
 
@@ -50,14 +58,16 @@ export default class RPC {
   }
 
   private createClient() {
+    /*
     this.axiosInstance = axios.create({
       baseURL: "http://localhost:9000",
+      headers:{
+        'Content-Type': 'application/json',
+      }
     });
 
-    // JSONRPCClient needs to know how to send a JSON-RPC request.
-    // Tell it by passing a function to its constructor. The function must take a JSON-RPC request and send it.
-    this.client = new JSONRPCClient((jsonRPCRequest) =>
-      this.axiosInstance.post("/rpc").then((response: any) => {
+    this.client = new JSONRPCClient((jsonRPCRequest) => {
+      return this.axiosInstance.post("/rpc", JSON.stringify(jsonRPCRequest)).then((response: any) => {
         if (response.status === 200) {
           // Use client.receive when you received a JSON-RPC response.
           return response
@@ -67,32 +77,54 @@ export default class RPC {
           return Promise.reject(new Error(response.statusText));
         }
       })
-    );
-
-    // Use client.notify to make a JSON-RPC notification call.
-    // By definition, JSON-RPC notification does not respond.
-    /*
-    this.client.notify("log", { message: "Hello, World!" });
-    */
+    } 
+    );*/
   }
 
   static call(path, args?: any) {
     return RPC.instance.client.request(path, args)
   }
 
-  private createRPC(instance, method, path) {
-    RPC.instance.server.addMethod(path, method.bind(this))
-  }
-
   get rpcServer() {
     return this.server
   }
+}
 
-  static enableRPC(instance, method, path) {
-    RPC.instance.resolvers[path] = {
-      instancePointer: instance,
-      method
+export class IRPC {
+  constructor(){}
+  protected setupRPC( localConstructor?: () => void, rpcServerConstructor?: () => void ){
+    if (RPC.isRPCServer) {
+
+      if (procedureFunctionMap.has((this as any)._rpcPath)) {
+        const path = (this as any)._rpcPath
+        procedureFunctionMap.get(path)?.forEach(procedure => {
+          RPC.getInstance().rpcServer.addMethod(`${path}.${procedure}`, this[procedure])
+        })
+      }
+
+      if (rpcServerConstructor) {
+        rpcServerConstructor()
+
+      }
+    } else {
+      if (localConstructor) {
+        localConstructor()
+      }
     }
-    RPC.instance.createRPC(instance, method, path)
   }
+}
+
+export function enableRPC(path, procedures: string[]): any {
+  return (target: any) => {
+    target.prototype._rpcPath = path
+    procedures.forEach((procedure) => {
+      if (procedureFunctionMap.has(path)) {
+        procedureFunctionMap.get(path)?.push(procedure)
+      } else {
+        procedureFunctionMap.set(path, [procedure])
+
+      }
+    })
+  }
+
 }

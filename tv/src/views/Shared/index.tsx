@@ -6,11 +6,12 @@ import { PortalSpace } from '../../components/PortalSpace'
 import { useEffect, useState } from 'react'
 import { Gallery } from '../Gallery'
 
+/*
 import { Howl } from 'howler'
 import openSound from "./enter.wav"
 const open = new Howl({
   src: [ openSound ]
-})
+})*/
 
 export const Shared = () => {
   const [ isInactive, setIsInactive ] = useState(true)
@@ -22,7 +23,7 @@ export const Shared = () => {
           setIsInactive( isInactive => {
            
             if (isInactive) {
-              open.play()
+              //open.play()
             }
 
             return false

@@ -4,7 +4,7 @@ import { BACKGROUND_THEME } from '../config/theme'
 
 export const GradientBackground = () => {
   const [ savedBackgroundTheme] = useLocalStorage("background-theme", "default")
-  const backgroundTheme = BACKGROUND_THEME[savedBackgroundTheme]
+  const backgroundTheme = BACKGROUND_THEME.forest
   return (
     <div style={{
         position: "absolute",

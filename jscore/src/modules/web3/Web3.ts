@@ -13,6 +13,7 @@ enum Environments {
 }
 
 interface Config {
+  isRPCServer: boolean
 }
 
 interface DependencyInjection {
@@ -24,7 +25,10 @@ interface User {
 }
 
 export default class Web3 extends Module {
+
+
   private static instance: Web3;
+
   private _address: any;
   private _signer: any;
   private _provider: any;
@@ -64,10 +68,20 @@ export default class Web3 extends Module {
     return this._provider
   } 
 
-  async start(){
-    //TODO:  Load anything from storage 
+  async start(isRPCServer){
+    if (!isRPCServer) {
+      return;
+    }
 
+    const { Alchemy, Network} = require("alchemy-sdk")
+    // Optional config object, but defaults to the API key 'demo' and Network 'eth-mainnet'.
+    const settings = {
+      apiKey: '69_vnvQb9PdjElPU-XD_cZCiDKfzONaU', // Replace with your Alchemy API key.
+      network: Network.ETH_GOERLI // Replace with your network.
+    };
 
+    const alchemy = new Alchemy(settings);
+    this._provider = await alchemy.config.getProvider() 
   }
 
   public setSigner(){

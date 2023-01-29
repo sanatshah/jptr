@@ -1,7 +1,7 @@
 import Module from "../Module";
 import Core from "../../Core";
 import Network from "./Network";
-import Farcaster from "./networks/farcaster/Farcaster";
+import Farcaster, { Farcaster_RPC } from "./networks/farcaster/Farcaster";
 import { makeObservable, observable } from "mobx";
 import RPC from "../../libs/RPC";
 
@@ -23,14 +23,10 @@ export enum NetworkTypes {
   FARCASTER,
 }
 
-interface FarcasterRPC {
-  postMany: () => void,
-  search: (filter: string) => any[] 
-}
 
 export default class Social extends Module {
   public selectedNetwork: NetworkTypes;
-  public network: Farcaster | FarcasterRPC | undefined = undefined;
+  public network: Farcaster_RPC | undefined = undefined;
 
   constructor(
     core : Core<{}>,
@@ -49,28 +45,13 @@ export default class Social extends Module {
 
   public async setup(){
     this.selectedNetwork = NetworkTypes.FARCASTER
+
     if (!this.core.modules.web3) {
       throw new Error("Missing Module!")
     }
 
-    if (this.config.isRPCServer) {
-      this.network = new Farcaster(this.core.modules.web3, this.config)
-      this.isReady = true
-      return
-    }
-
-    if (this.config.useRemote) {
-      console.log("using remote!!")
-      this.network = {
-        postMany: () => {
-          return RPC.call("modules.farcaster.postMany")
-        },
-        search: (filter: string): any => {
-          console.log("searching!!")
-          return RPC.call("modules.farcaster.search", filter)
-        }
-      }
-    }
+    this.network = new Farcaster(this.core.modules.web3)
+    this.isReady = true
 
   }
 

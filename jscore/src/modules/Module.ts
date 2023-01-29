@@ -22,7 +22,7 @@ export default class Module {
     const ModuleClass = this;
     core.modules[name] = new (ModuleClass as any)(core, config, dependencies);
   }
-  protected async start() {}
+  protected async start(isRPCServer: boolean) {}
   protected async postStart() {}
   protected async restart() {}
   protected async stop() {}
