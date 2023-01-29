@@ -8,12 +8,6 @@ export enum RPCTYPE {
   NONE = "NONE"
 }
 
-interface Resolver<T,R>  {
-  instancePointer: any,
-  method: (args: T) =>  R
-}
-
-
 const procedureFunctionMap: Map<string, string[]> = new Map<string, string[]>()
 export default class RPC {
   private axiosInstance: any;
@@ -43,6 +37,7 @@ export default class RPC {
 
         case RPCTYPE.CLIENT:
           RPC.instance.createClient()
+          RPC.isRPCServer = false
           break;
 
         case RPCTYPE.NONE:
@@ -58,35 +53,24 @@ export default class RPC {
   }
 
   private createClient() {
-    /*
-    this.axiosInstance = axios.create({
-      baseURL: "http://localhost:9000",
-      headers:{
-        'Content-Type': 'application/json',
-      }
-    });
-
     this.client = new JSONRPCClient((jsonRPCRequest) => {
-      return this.axiosInstance.post("/rpc", JSON.stringify(jsonRPCRequest)).then((response: any) => {
+      return axios.post("http://localhost:9000/rpc", jsonRPCRequest).then((response: any) => {
         if (response.status === 200) {
-          // Use client.receive when you received a JSON-RPC response.
-          return response
-            .json()
-            .then((jsonRPCResponse) => this.client.receive(jsonRPCResponse));
+          return this.client.receive(response.data)
         } else if (jsonRPCRequest.id !== undefined) {
           return Promise.reject(new Error(response.statusText));
         }
       })
     } 
-    );*/
-  }
-
-  static call(path, args?: any) {
-    return RPC.instance.client.request(path, args)
+    );
   }
 
   get rpcServer() {
     return this.server
+  }
+
+  get rpcClient() {
+    return this.client
   }
 }
 
@@ -109,6 +93,14 @@ export class IRPC {
     } else {
       if (localConstructor) {
         localConstructor()
+        if (procedureFunctionMap.has((this as any)._rpcPath)) {
+          const path = (this as any)._rpcPath
+          procedureFunctionMap.get(path)?.forEach(procedure => {
+            (this as any)[procedure]= (args) => {
+              return RPC.getInstance().rpcClient.request(`${path}.${procedure}`, args)
+            }
+          })
+        }
       }
     }
   }
@@ -122,9 +114,7 @@ export function enableRPC(path, procedures: string[]): any {
         procedureFunctionMap.get(path)?.push(procedure)
       } else {
         procedureFunctionMap.set(path, [procedure])
-
       }
     })
   }
-
 }

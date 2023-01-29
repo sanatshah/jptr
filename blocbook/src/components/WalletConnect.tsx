@@ -58,7 +58,9 @@ export const Account = observer(({
         if ( isSuccess && address && provider && signer) {
           await _.m().modules.web3?.setUser(address, signer, provider)
           await _.m().modules.social?.setup()
+
           await _.m().modules.social?.network?.search("@blocbook")
+
           onAccountSetup()
         }
       }

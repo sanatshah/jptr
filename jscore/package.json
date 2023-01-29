@@ -6,6 +6,9 @@
   "main": "dist/index.js",
   "types": "dist/index.js.map",
   "type:": "module",
+  "engines": {
+    "node": ">= 18.13"
+  },
   "scripts": {
     "watch": "tsc -w",
     "build": "tsc",
@@ -18,9 +21,9 @@
     "@feathersjs/feathers": "^4.5.10",
     "@feathersjs/rest-client": "^4.5.10",
     "@feathersjs/socketio-client": "^4.5.10",
-    "@standard-crypto/farcaster-js": "^3.0.7",
+    "@standard-crypto/farcaster-js": "^5.5.1",
     "alchemy-sdk": "^2.2.4",
-    "axios": "^1.2.1",
+    "axios": "^1.2.6",
     "did-jwt": "^6.9.0",
     "ethers": "^5.7.2",
     "json-rpc-2.0": "^1.4.1",

@@ -2,6 +2,9 @@
   "name": "blocbook",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">= 18.13"
+  },
   "dependencies": {
     "@babel/core": "^7.16.0",
     "@chakra-ui/react": "^2.3.7",
@@ -16,7 +19,6 @@
     "@homenode/jscore": "1.0.0",
     "@merc/react-timeline": "^0.1.42",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
-    "@standard-crypto/farcaster-js": "^3.0.7",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",

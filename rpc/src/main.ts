@@ -28,16 +28,11 @@ const config = {
   await Core._.m().start()
   await Core._.m().modules.social.setup()
 
-  app.use(async () => {
-    await Core._.m().start()
-    Core._.m().modules.web3.setSigner()
-    Core._.m().modules.web3.setAddress("0x234243")
-    await Core._.m().modules.social.setup()
-  })
-
   app.post("/rpc", async (req, res) => {
     const jsonRPCRequest = req.body;
     const server = Core._.m().rpc.server
+
+    console.log(`> Recieved RPC request for [${jsonRPCRequest.method}]`)
 
     server.receive(jsonRPCRequest).then((jsonRPCResponse) => {
       if (jsonRPCResponse) {
@@ -48,10 +43,6 @@ const config = {
     });
 
   });
-
-  app.use(async () => {
-    await Core._.m().stop()
-  })
 
   app.listen(9000);
 
